@@ -30,11 +30,11 @@
                 headers: {"X-CSRFToken": '{{ csrf_token }}'},
                 success: function (value){
                     if (value.status == 200){
-                        document.cookie = 'access='+value.access+';path=/'
-                        let x = document.cookie
-                                .split(';')
-                                .map(cookie => cookie.split('='))
-                                .reduce((accumulator, [key, value]) => ({ ...accumulator, [key.trim()]: decodeURIComponent(value) }), {});
+                        document.cookie='access='+value.access+';path=/'
+<!--                        let x = document.cookie-->
+<!--                                .split(';')-->
+<!--                                .map(cookie => cookie.split('='))-->
+<!--                                .reduce((accumulator, [key, value]) => ({ ...accumulator, [key.trim()]: decodeURIComponent(value) }), {});-->
                         window.location="/"
                     }
                 },

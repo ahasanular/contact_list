@@ -1,4 +1,4 @@
-{% extends "layout\base.html" %}
+{% extends "layout/base.html" %}
 {% block title %} Add Contacts {% endblock %}
 {% block body %}
 <br>
@@ -16,6 +16,11 @@
 </div>
 
 <script>
+        let x = document.cookie
+                .split(';')
+                .map(cookie => cookie.split('='))
+                .reduce((accumulator, [key, value]) => ({ ...accumulator, [key.trim()]: decodeURIComponent(value) }), {});
+
     $("#save").click(function(){
         var data_str={}
         data_str['name']=$("#name").val()
@@ -26,7 +31,7 @@
             type:"POST",
             url: "http://127.0.0.1:8000/addcontact_api/",
             data: JSON.stringify(data_str),
-            headers: {"X-CSRFToken": '{{csrf_token}}'},
+            headers: {Authorization: 'Bearer ' + x.access},
             success: function(value){
             alert('success')
             alert(value.message)

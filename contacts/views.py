@@ -70,6 +70,8 @@ class Add_contact_api(CreateAPIView):
             #data= request.data
             data= json.loads(request.body)
             user= request.user
+            print("user")
+            print(user)
             person = Person()
             if 'name' not  in data or data['name']=='':
                 return Response('Please Enter Your Name',status=400)
