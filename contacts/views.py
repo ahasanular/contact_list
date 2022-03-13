@@ -11,7 +11,7 @@ def details(request, slug):
     return render(request, 'contact_details.html')
 
 
-#api
+#All api
 from rest_framework.generics import ListAPIView, CreateAPIView
 from rest_framework.response import Response
 
