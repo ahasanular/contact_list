@@ -8,7 +8,7 @@ from django.template.defaultfilters import slugify
 class Person(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     is_archived = models.BooleanField(default=False)
-    name = models.CharField(max_length=255, unique=True)
+    name = models.CharField(max_length=255)
     email = models.CharField(max_length=255, null=True, blank=True)
     phone = models.CharField(max_length=15)
     slug = models.SlugField(max_length=255, unique=True)
