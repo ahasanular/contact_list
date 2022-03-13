@@ -2,6 +2,7 @@ from django.shortcuts import render
 from .models import Person
 from .serializers import PersonSerializer
 import json
+from rest_framework.status import HTTP_400_BAD_REQUEST, HTTP_200_OK
 
 def contactList(request):
     return render(request, 'index.html')
@@ -40,4 +41,16 @@ class contact_edit_api(CreateAPIView):
                 return Response(feedback)
             else:
                 person.email = data['email']
-                person.name =
+                person.name = data['name']
+                person.phone = data['phone']
+                person.save()
+
+                feedback = {}
+                feedback['status'] = HTTP_200_OK
+                feedback['message'] = "All details updated !"
+                return Response(feedback)
+        except Exception as ex:
+            feedback = {}
+            feedback['status'] = HTTP_400_BAD_REQUEST
+            feedback['message'] = str(ex)
+            return Response(feedback)
