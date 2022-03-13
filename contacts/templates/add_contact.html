@@ -26,15 +26,15 @@
         data_str['name']=$("#name").val()
         data_str['email']=$("#email").val()
         data_str['phone']=$("#phone").val()
-        console.log(data_str)
+        // console.log(data_str)
         $.ajax({
             type:"POST",
             url: "http://127.0.0.1:8000/addcontact_api/",
             data: JSON.stringify(data_str),
             headers: {Authorization: 'Bearer ' + x.access},
             success: function(value){
-            alert('success')
-            alert(value.message)
+            // alert('success')
+            // alert(value.message)
               if(value.status==200){
                 console.log(value)
                 window.location="/"
@@ -43,6 +43,7 @@
             error: function(errormsg){
               console.log(errormsg)
               alert('error')
+              console.log(errormsg)
             }
         });
     })

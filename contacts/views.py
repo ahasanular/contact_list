@@ -22,7 +22,7 @@ from rest_framework.response import Response
 class contact_list_api(ListAPIView):
     permission_classes = [IsAuthenticated]
     def get(self, request):
-        data = Person.objects.filter().all()
+        data = Person.objects.filter(user=request.user).all()
         data = PersonSerializer(data, many=True).data
         return Response(data)
 
