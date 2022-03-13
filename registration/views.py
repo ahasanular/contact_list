@@ -67,6 +67,7 @@ class UserSignIn(generics.ListAPIView):
                     token = RefreshToken.for_user(user)
                     data = {
                         'user_name': user.username,
+                        'slug': app_user.slug,
                         'access': str(token.access_token),
                         'token': str(token),
                         'status': status.HTTP_200_OK

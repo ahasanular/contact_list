@@ -2,7 +2,6 @@
 {% block title %} Sign in {% endblock %}
 
 {% block body %}
-<p>Already an User? <a href="/registration/signin/">Sign in</a></p>
 <div id="from_body">
     <form enctype="multipart/form-data" id="form_sign_up" method="POST">
 	    {% csrf_token %}
@@ -14,10 +13,6 @@
  	    <input type="password" id="password" name="password"><br><br>
  	    <input type="submit" value="Sign Up">
     </form>
-</div>
-
-<div class="access">
-
 </div>
 
 <script>
@@ -36,9 +31,6 @@
             data: data_str,
             success: function(value){
             	$("#from_body").html(`success`)
-            	$(".access").append(`
-            		<a href="/registration/signin/">Sign in</a>
-            	`)
             },
             error: function(errormsg){
             	console.log(errormsg)
