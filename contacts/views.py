@@ -14,8 +14,8 @@ class Add_contact_api(CreateAPIView):
     permission_classes = []
     def post(self, request, *args, **kwargs):
         try:
-            data= request.data
-            #data= json.loads(request.body)
+            #data= request.data
+            data= json.loads(request.body)
             user= request.user
             person = Person()
             if 'name' not  in data or data['name']=='':
@@ -28,7 +28,11 @@ class Add_contact_api(CreateAPIView):
             person.phone=data['phone']
             person.email=data['email']
             person.save()
-            return Response('Success')
+            result = {}
+            result['status'] = HTTP_200_OK
+            result['message'] = "success"
+            return Response(result)
+
         except Exception as ex:
             result = {}
             result['status'] = HTTP_400_BAD_REQUEST
