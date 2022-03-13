@@ -27,8 +27,11 @@
 
     <div id="page-container" style="margin:50px;">
         <div id="content-wrap">
+            {% include 'layout\header.html' %}
+                <div class="body_start">
+                    <br>
+                </div>
             {% block body %}
-                no content found
             {% endblock %}
         </div>
     </div>

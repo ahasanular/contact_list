@@ -1,0 +1,18 @@
+{% extends "layout\base.html" %}
+{% block title %} Add Contacts {% endblock %}
+{% block body %}
+<br>
+    <h1 style="text-align: center;">Add Contact</h1>
+<br>
+<div class="form">
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" href="#">SAVE</button>
+    </form>
+</div>
+
+<script>
+
+</script>
+{% endblock %}
