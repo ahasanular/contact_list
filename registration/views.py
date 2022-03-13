@@ -10,9 +10,19 @@ from django.http import HttpResponseRedirect
 
 
 # Create your views here.
+def root(request):
+    return render(request, 'index.html')
 
-def signout(request):
-    response = HttpResponseRedirect('/access/')
+def sign_up(request):
+    return render(request, 'sign_up.html')
+
+
+def sign_in(request):
+    return render(request, 'sign_in.html')
+
+
+def sign_out(request):
+    response = HttpResponseRedirect('/registration/')
     response.delete_cookie('access')
     response.delete_cookie('user_name')
     return response
@@ -76,6 +86,7 @@ class UserSignUp(generics.CreateAPIView):
         result = {}
         try:
             data = request.data
+            # data = json.loads(request.body)
 
             if 'full_name' not in data or data['full_name'] == '':
                 return Response("Full name can not be null.")
