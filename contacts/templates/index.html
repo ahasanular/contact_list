@@ -1,0 +1,60 @@
+{% extends 'layout/base.html' %}
+
+{% block title %}Contacts{% endblock %}
+
+{% block body %}
+
+<h1 class="m-5">Contact List</h1>
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h4><strong>Name</strong></h4>
+        </div>
+        <div class="col">
+            <h4><strong>Number</strong></h4>
+        </div>
+        <div class="col">
+            <h4><strong>Email</strong></h4>
+        </div>
+    </div>
+</div>
+
+<div class="container" id="card">
+
+</div>
+
+    <script>
+        $.ajax({
+            type: "GET",
+            url: "http://127.0.0.1:8000/contact_list_api/",
+            data: "",
+            success: function(data){
+                console.log("Success Checking")
+                console.log(data)
+
+                for(var i = 0; i < data.length; i++){
+                    $('#card').append(`
+                        <a class="row p-2 hoverEffect" href="/${data[i].slug}">
+                            <div class="col">
+                                <span class="h4">${data[i].name}</span>
+                            </div>
+                            <div class="col">
+                                <span class="h4">${data[i].number}</span>
+                            </div>
+                            <div class="col">
+                                <span class="h4">${data[i].email}</span>
+                            </div>
+                        </a>
+                    `)
+                }
+
+            },
+            error: function(data){
+                console.log("Error Checking")
+                console.log(data)
+            }
+        });
+    </script>
+
+{% endblock %}
