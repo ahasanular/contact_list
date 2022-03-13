@@ -27,10 +27,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # local Apps
     'registration',
     'contacts',
 
-    #3rd party
+    # 3rd party
     'rest_framework',
 ]
 
@@ -87,9 +89,9 @@ WSGI_APPLICATION = 'contact_list.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'school',
+        'NAME': 'contact_manager',
         'USER': 'root',
-        'PASSWORD': 'Ar@fath21',
+        'PASSWORD': 'Hasani*1',
         'HOST': '127.0.0.1',
         'PORT': '3306',
         'OPTIONS': {
