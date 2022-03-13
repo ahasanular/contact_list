@@ -3,9 +3,10 @@ from . import views
 
 urlpatterns = [
     path('', views.contactList),
-    # path('details', views.),
+    path('details/<slug:slug>/', views.details),
 
     # api
     path('contact_list_api/', views.contact_list_api.as_view()),
+    path('details_api/<slug:slug>/', views.DetailsApi.as_view()),
     path('contact_edit_api/<slug:slug>/', views.contact_edit_api.as_view()),
 ]
