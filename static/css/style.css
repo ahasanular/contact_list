@@ -9,6 +9,9 @@ color: black;
 font-size: 25px;
 padding: 10px;
 }
+.menu ul li a:hover{
+color: white;
+}
 .menu {
 text-align: center;
 background-color: white;
