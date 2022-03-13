@@ -1,0 +1,39 @@
+{% extends 'layout/base.html' %}
+{% block title %}Details{% endblock %}
+{% block body %}
+    <h1>Details</h1>
+    <div class="card container" style="width:25em"></div>
+
+    <script>
+        var path = window.location.pathname.split('/')
+        console.log(path[2])
+        $.ajax({
+            type : "GET",
+            url : "http://127.0.0.1:8000/details_api/"+path[2]+"/",
+            success: function(value){
+            console.log("value")
+            console.log(value)
+                $(".card").html(`
+                    <div>
+                        <label for="name" style="font-size:20px">Name : </label><br>
+                        <input name="name" value="${ value.name }" placeholder=""><br>
+                    </div>
+                    <div>
+                        <label for="phone" style="font-size:20px">Phone : </label><br>
+                        <input name="phone" value="${ value.phone }" placeholder=""><br>
+                    </div>
+                    <div>
+                        <label for="email" style="font-size:20px">Email : </label><br>
+                        <input name="email" value="${ value.email }" placeholder=""><br>
+                    </div><br>
+                    <div>
+                        <a href="/"><button class="btn bg-primary">Back</button></a>
+                        <a href="/"><button class="btn bg-primary">Delete</button></a>
+                    </div>
+                `)
+            },error: function(errormsg){
+                console.log(errormsg)
+            }
+        });
+    </script>
+{% endblock %}
