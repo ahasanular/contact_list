@@ -11,7 +11,7 @@ class Person(models.Model):
     name = models.CharField(max_length=255)
     email = models.CharField(max_length=255, null=True, blank=True)
     phone = models.CharField(max_length=15)
-    slug = models.SlugField(max_length=255, unique=True, null=True, blank=True)
+    slug = models.SlugField(max_length=255, unique=True)
 
     def __str__(self):
         return self.name
