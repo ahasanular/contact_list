@@ -31,6 +31,9 @@
             data: data_str,
             success: function(value){
             	$("#from_body").html(`success`)
+            	if(value.status == 200){
+            		window.location = '/'
+            	}
             },
             error: function(errormsg){
             	console.log(errormsg)

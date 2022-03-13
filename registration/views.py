@@ -19,7 +19,7 @@ def sign_in(request):
 
 
 def sign_out(request):
-    response = HttpResponseRedirect('/registration/')
+    response = HttpResponseRedirect('/')
     response.delete_cookie('access')
     response.delete_cookie('user_name')
     return response

@@ -17,11 +17,17 @@
         </div>
     </div>
     <script>
+    let x = document.cookie
+        .split(';')
+        .map(cookie => cookie.split('='))
+        .reduce((accumulator, [key, value]) => ({ ...accumulator, [key.trim()]: decodeURIComponent(value) }), {});
+
         var path = window.location.pathname.split('/')
         console.log(path[2])
         $.ajax({
             type : "GET",
             url : "http://127.0.0.1:8000/details_api/"+path[2]+"/",
+            headers: {Authorization: 'Bearer ' + x.access},
             success: function(value){
             console.log("value")
             console.log(value)

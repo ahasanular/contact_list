@@ -25,9 +25,17 @@
 </div>
 
     <script>
+    let x = document.cookie
+        .split(';')
+        .map(cookie => cookie.split('='))
+        .reduce((accumulator, [key, value]) => ({ ...accumulator, [key.trim()]: decodeURIComponent(value) }), {});
+
+
+
         $.ajax({
             type: "GET",
             url: "http://127.0.0.1:8000/contact_list_api/",
+            headers: {Authorization: 'Bearer ' + x.access},
             data: "",
             success: function(data){
                 console.log("Success Checking")
