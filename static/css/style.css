@@ -1,0 +1,10 @@
+a{
+    text-decoration: none;
+}
+
+.hoverEffect:hover {
+    background-color: rgb(211,211,211);
+    font-weight: bold;
+    transform: scale(1.1);
+    border : 1px solid black;
+}

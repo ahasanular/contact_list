@@ -35,12 +35,12 @@
 
                 for(var i = 0; i < data.length; i++){
                     $('#card').append(`
-                        <a class="row p-2 hoverEffect" href="/${data[i].slug}">
+                        <a class="row p-2 hoverEffect" href="/details/${data[i].slug}/">
                             <div class="col">
                                 <span class="h4">${data[i].name}</span>
                             </div>
                             <div class="col">
-                                <span class="h4">${data[i].number}</span>
+                                <span class="h4">${data[i].phone}</span>
                             </div>
                             <div class="col">
                                 <span class="h4">${data[i].email}</span>
