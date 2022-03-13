@@ -10,9 +10,6 @@ from django.http import HttpResponseRedirect
 
 
 # Create your views here.
-def root(request):
-    return render(request, 'reg_index.html')
-
 def sign_up(request):
     return render(request, 'sign_up.html')
 
