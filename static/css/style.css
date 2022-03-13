@@ -3,6 +3,7 @@ a{
 }
 
 .hoverEffect:hover {
+    transition: 0.7s;
     background-color: rgb(211,211,211);
     font-weight: bold;
     transform: scale(1.1);
