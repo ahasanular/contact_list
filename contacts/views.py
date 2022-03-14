@@ -64,7 +64,7 @@ class contact_edit_api(CreateAPIView):
 
 
 class Add_contact_api(CreateAPIView):
-    permission_classes = []
+    permission_classes = [IsAuthenticated]
     def post(self, request, *args, **kwargs):
         try:
             #data= request.data
