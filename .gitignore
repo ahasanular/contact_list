@@ -1,4 +1,11 @@
-/venv
-/env
+/venv/
+/env/
+/.idea/
+/__pycache__/
+/media/
+
+venv/
+env/
 .idea/
 __pycache__/
+media/
