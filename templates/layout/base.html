@@ -38,6 +38,14 @@
     </div>
 
     <script>
+        $('#sign_out').hide()
+        let cookie_value = document.cookie
+        const parts = cookie_value.split(";")
+        if (parts[1]){
+            $('#sign_up').hide()
+            $('#sign_in').hide()
+            $('#sign_out').show()
+        }
 
     </script>
 </body>
