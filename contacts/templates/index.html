@@ -4,9 +4,10 @@
 
 {% block body %}
 
-<h1 class="m-5">Contact List</h1>
+<h1 class="m-5" id="contract_list_head">Contact List</h1>
+<h1 class="m-5" id="log_info">Sign up or Sign in</h1>
 
-<div class="container" id="main-container">
+<div class="container" id="main_container">
     <div class="row">
         <div class="col">
             <h4><strong>Name</strong></h4>
@@ -25,6 +26,15 @@
 </div>
 
     <script>
+    $('#contract_list_head').hide()
+    $('#main_container').hide()
+    let cookie_data = document.cookie
+    const part = cookie_data.split(";")
+    if(part[1]){
+        $('#contract_list_head').show()
+        $('#main_container').show()
+        $('#log_info').hide()
+    }
     let x = document.cookie
         .split(';')
         .map(cookie => cookie.split('='))

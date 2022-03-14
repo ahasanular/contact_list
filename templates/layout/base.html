@@ -39,12 +39,14 @@
 
     <script>
         $('#sign_out').hide()
+        $('#add_new_contact').hide()
         let cookie_value = document.cookie
         const parts = cookie_value.split(";")
         if (parts[1]){
             $('#sign_up').hide()
             $('#sign_in').hide()
             $('#sign_out').show()
+            $('#add_new_contact').show()
         }
 
     </script>
