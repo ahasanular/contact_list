@@ -3,6 +3,12 @@ import secrets
 from django.db import models
 from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
+# import for QR code
+
+import qrcode
+from io import BytesIO
+from django.core.files import File
+from PIL import
 
 # Create your models here.
 class Person(models.Model):
@@ -12,6 +18,7 @@ class Person(models.Model):
     email = models.CharField(max_length=255, null=True, blank=True)
     phone = models.CharField(max_length=15)
     slug = models.SlugField(max_length=255, unique=True)
+    qr_code = models.ImageField(upload_to='qr_codes', null=True blank=True)
 
     def __str__(self):
         return self.name
@@ -28,3 +35,5 @@ class Person(models.Model):
             super(Person, self).save(*args, **kwargs)
         else:
             super(Person, self).save(*args, **kwargs)
+
+
