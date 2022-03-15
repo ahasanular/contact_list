@@ -8,7 +8,7 @@
 <h1 class="m-5" id="contract_list_head">Contact QR code</h1>
 </div>
 
-<div id="QRcode">
+<div id="QR_code">
 </div>
 
     <script>
@@ -26,11 +26,10 @@
             success: function(value){
             console.log("value")
             console.log(value)
-                $("#QRcode").append(`
+                $("#QR_code").html(`
                         <div>
                             <img src="${ value.qr_code }">
                         </div>
-
                 `)
             },
             error: function(errormsg){
