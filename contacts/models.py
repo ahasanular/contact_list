@@ -8,7 +8,7 @@ from django.template.defaultfilters import slugify
 import qrcode
 from io import BytesIO
 from django.core.files import File
-from PIL import
+from PIL import Image, ImageDraw
 
 # Create your models here.
 class Person(models.Model):
@@ -18,7 +18,7 @@ class Person(models.Model):
     email = models.CharField(max_length=255, null=True, blank=True)
     phone = models.CharField(max_length=15)
     slug = models.SlugField(max_length=255, unique=True)
-    qr_code = models.ImageField(upload_to='qr_codes', null=True blank=True)
+    qr_code = models.ImageField(upload_to='qr_codes', null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -36,4 +36,14 @@ class Person(models.Model):
         else:
             super(Person, self).save(*args, **kwargs)
 
+        qr_code_picture = qrcode.make("Name : "+self.name+"\nPhone : "+self.phone+"\nEmail : "+self.email)
+        canvas = Image.new('RGB', (720, 720), 'white')
+        draw = ImageDraw.Draw(canvas)
+        canvas.paste(qr_code_picture)
+        qr_code_name = f'qr_code-{self.name}.png'
+        buffer = BytesIO()
+        canvas.save(buffer, 'PNG')
+        self.qr_code.save(qr_code_name, File(buffer), save=False)
+        canvas.close()
+        super().save(*args, **kwargs)
 

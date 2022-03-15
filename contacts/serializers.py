@@ -4,9 +4,9 @@ from .models import Person
 class PersonSerializer(serializers.ModelSerializer):
     class Meta:
         model = Person
-        fields = ['name', 'phone', 'email', 'slug']
+        fields = ['name', 'phone', 'email', 'slug', 'qr_code']
 
 class PersonDetailsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Person
-        fields = ['name', 'email', 'phone', 'slug']
+        fields = ['name', 'email', 'phone', 'slug', 'qr_code']
