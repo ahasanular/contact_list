@@ -1,9 +1,11 @@
 from django.shortcuts import render
 from .models import Person
-from .serializers import PersonSerializer, PersonDetailsSerializer
+from registration.models import AppUser
+from .serializers import PersonSerializer, PersonDetailsSerializer, AppUserSerializers
 import json
 from rest_framework.status import HTTP_400_BAD_REQUEST, HTTP_200_OK
 from rest_framework.permissions import IsAuthenticated
+from django.contrib.auth.models import User
 
 def contactList(request):
     return render(request, 'index.html')
@@ -13,6 +15,9 @@ def details(request, slug):
 
 def addcontact(request):
     return render(request,'add_contact.html')
+
+def my_account(request):
+    return render(request,'my_account.html')
 
 
 #All api
@@ -94,3 +99,63 @@ class Add_contact_api(CreateAPIView):
             result['message'] = str(ex)
             return Response(result)
 
+class My_account_api(ListAPIView):
+    permission_classes = [IsAuthenticated]
+    def get(self, request):
+        try:
+            data_val = AppUser.objects.filter(user=request.user).first()
+            data_val = AppUserSerializers(data_val).data
+            return Response(data_val)
+        except Exception as ex:
+            result = {}
+            result['status'] = HTTP_400_BAD_REQUEST
+            result['message'] = str(ex)
+            return Response(result)
+
+class My_account_edit_api(CreateAPIView):
+    permission_classes = [IsAuthenticated]
+    def put(self, request):
+        try:
+            data = json.loads(request.body)
+
+            if 'name' not  in data or data['name']=='':
+                feedback = {}
+                feedback['status'] = HTTP_400_BAD_REQUEST
+                feedback['message'] = "Name can't be Null !"
+                return Response(feedback)
+            if 'email' not  in data or data['email']=='':
+                feedback = {}
+                feedback['status'] = HTTP_400_BAD_REQUEST
+                feedback['message'] = "email not found !"
+                return Response(feedback)
+
+            user = User.objects.filter(email=data['email']).first()
+
+            if not user:
+                feedback = {}
+                feedback['status'] = HTTP_400_BAD_REQUEST
+                feedback['message'] = "Invalid User !"
+                return Response(feedback)
+
+            app_user = AppUser.objects.filter(user=request.user).first()
+
+            if not app_user:
+                feedback = {}
+                feedback['status'] = HTTP_400_BAD_REQUEST
+                feedback['message'] = "Person was not found !"
+                return Response(feedback)
+            else:
+                app_user.full_name = data['name']
+                user.first_name = data['name']
+                user.save()
+                app_user.save()
+
+                feedback = {}
+                feedback['status'] = HTTP_200_OK
+                feedback['message'] = "All details updated !"
+                return Response(feedback)
+        except Exception as ex:
+            feedback = {}
+            feedback['status'] = HTTP_400_BAD_REQUEST
+            feedback['message'] = str(ex)
+            return Response(feedback)
