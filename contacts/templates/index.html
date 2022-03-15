@@ -10,20 +10,36 @@
 <div class="container" id="main_container">
     <div class="row">
         <div class="col">
-            <h4><strong>Name</strong></h4>
+            <div class="row">
+                <div class="col" style="text-align: center;">
+                    <span class="h4"><strong>Name</strong></span>
+                </div>
+                <div class="col" style="text-align: center;">
+                    <span class="h4"><strong>email</strong></span>
+                </div>
+                <div class="col" style="text-align: center;">
+                    <span class="h4"><strong>Phone</strong></span>
+                </div>
+            </div>
         </div>
-        <div class="col">
-            <h4><strong>Number</strong></h4>
+        <div class="col ms-5" style="max-width: 20%;">
+            <div class="row">
+            <div class="col" style="text-align: center;">
+                <h3 class="h4"><strong>Favorites</strong></h3>
+            </div>
+            <div class="col" style="text-align: center;">
+                <h3 class="h4"><strong>Share</strong></h3>
+            </div>
+            </div>
         </div>
-        <div class="col">
-            <h4><strong>Email</strong></h4>
-        </div>
+    </div>
+
+    <div class="container" id="card">
+
     </div>
 </div>
 
-<div class="container" id="card">
 
-</div>
 
     <script>
     $('#contract_list_head').hide()
@@ -51,20 +67,34 @@
 
                 for(var i = 0; i < data.length; i++){
                     $('#card').append(`
-                        <a class="row p-2 hoverEffect" href="/details/${data[i].slug}/">
+
+                    <div class="row hoverEffect" style="align-items: center;">
+                        <div class="col" style="vertical-align: middle; align-items: center;">
+                            <a class="row p-2" href="/details/${data[i].slug}/">
+                                <div class="col">
+                                    <span class="h4">${data[i].name}</span>
+                                </div>
+                                <div class="col">
+                                    <span class="h4">${data[i].phone}</span>
+                                </div>
+                                <div class="col">
+                                    <span class="h4">${data[i].email}</span>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col" style="max-width: 20%;">
+                            <div class="row">
                             <div class="col">
-                                <span class="h4">${data[i].name}</span>
+                                <a class="m-3 col btn neuEffect btn-lg fa fa-heart" href="/${data[i].slug}/" style="font-size: 18px;"></a>
                             </div>
                             <div class="col">
-                                <span class="h4">${data[i].phone}</span>
+                                <a class="m-3 col btn neuEffect btn-lg fa fa-share" href="shear/${data[i].slug}/" style="font-size: 18px;"></a>
                             </div>
-                            <div class="col">
-                                <span class="h4">${data[i].email}</span>
                             </div>
-                        </a>
+                        </div>
+                    </div>
                     `)
                 }
-
             },
             error: function(data){
                 console.log("Error Checking")

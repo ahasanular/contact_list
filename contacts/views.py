@@ -19,6 +19,10 @@ def addcontact(request):
 def my_account(request):
     return render(request,'my_account.html')
 
+def qr_code(requset, slug):
+    return render(requset, 'qr_code.html')
+
+
 
 #All api
 from rest_framework.generics import ListAPIView, CreateAPIView

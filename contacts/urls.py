@@ -6,6 +6,7 @@ urlpatterns = [
     path('details/<slug:slug>/', views.details),
     path('addcontact/',views.addcontact),
     path('my_account/',views.my_account),
+    path('shear/<slug:slug>/', views.qr_code),
 
     # api
     path('contact_list_api/', views.contact_list_api.as_view()),

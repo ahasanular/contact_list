@@ -3,10 +3,10 @@ a{
 }
 
 .hoverEffect:hover {
-    transition: 0.7s;
+    transition: 0.3s;
     background-color: rgb(211,211,211);
     font-weight: bold;
-    transform: scale(1.1);
+    transform: scale(1.05);
     border : 1px solid black;
 }
 
