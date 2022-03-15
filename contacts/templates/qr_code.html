@@ -5,11 +5,37 @@
 {% block body %}
 
 <div style="align-items: center;" id="qrcode">
-test qr code
+<h1 class="m-5" id="contract_list_head">Contact QR code</h1>
 </div>
 
 <script>
+    let x = document.cookie
+        .split(';')
+        .map(cookie => cookie.split('='))
+        .reduce((accumulator, [key, value]) => ({ ...accumulator, [key.trim()]: decodeURIComponent(value) }), {});
 
+    var path = window.location.pathname.split('/')
+    console.log(path[2])
+    $.ajax({
+        type : "GET",
+            url : "http://127.0.0.1:8000/details_api/"+path[2]+"/",
+            headers: {Authorization: 'Bearer ' + x.access},
+            success: function(value){
+            console.log("value")
+            console.log(value)
+            new QRCode(document.getElementById("qrcode"), {
+            text: "Name : " + value.name + ",\nPhone : " + value.phone + ",\nEmail : " + value.email,
+            width: 128,
+            height: 128,
+            colorDark : "#5868bf",
+            colorLight : "#ffffff",
+            });
+            $("#qrcode > img").css({"margin":"auto"});
+            },
+            error: function(errormsg){
+                console.log(errormsg)
+            }
+        });
 </script>
 
 {% endblock %}
