@@ -67,32 +67,31 @@
 
                 for(var i = 0; i < data.length; i++){
                     $('#card').append(`
-
-                    <div class="row hoverEffect" style="align-items: center;">
-                        <div class="col" style="vertical-align: middle; align-items: center;">
-                            <a class="row p-2" href="/details/${data[i].slug}/">
+                        <div class="row hoverEffect" style="align-items: center;">
+                            <div class="col" style="vertical-align: middle; align-items: center;">
+                                <a class="row p-2" href="/details/${data[i].slug}/">
+                                    <div class="col">
+                                        <span class="h4">${data[i].name}</span>
+                                    </div>
+                                    <div class="col">
+                                        <span class="h4">${data[i].email}</span>
+                                    </div>
+                                    <div class="col">
+                                        <span class="h4">${data[i].phone}</span>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col" style="max-width: 20%;">
+                                <div class="row">
                                 <div class="col">
-                                    <span class="h4">${data[i].name}</span>
+                                    <a class="m-3 col btn neuEffect btn-lg fa fa-heart" href="/${data[i].slug}/" style="font-size: 18px;"></a>
                                 </div>
                                 <div class="col">
-                                    <span class="h4">${data[i].phone}</span>
+                                    <a class="m-3 col btn neuEffect btn-lg fa fa-share" href="shear/${data[i].slug}/" style="font-size: 18px;"></a>
                                 </div>
-                                <div class="col">
-                                    <span class="h4">${data[i].email}</span>
                                 </div>
-                            </a>
+                            </div>
                         </div>
-                        <div class="col" style="max-width: 20%;">
-                            <div class="row">
-                            <div class="col">
-                                <a class="m-3 col btn neuEffect btn-lg fa fa-heart" href="/${data[i].slug}/" style="font-size: 18px;"></a>
-                            </div>
-                            <div class="col">
-                                <a class="m-3 col btn neuEffect btn-lg fa fa-share" href="shear/${data[i].slug}/" style="font-size: 18px;"></a>
-                            </div>
-                            </div>
-                        </div>
-                    </div>
                     `)
                 }
             },
