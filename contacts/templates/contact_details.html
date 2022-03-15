@@ -45,7 +45,7 @@
                             <h3 id="email">${ value.email }</h3><br>
                         </div><br>
                         <div>
-                            <a href="/"><button class="btn bg-primary">Back</button></a>
+                            <a href="/"><button class="btn btn-primary">Back</button></a>
                         </div>
                 `)
                 $('#edit_info').append(`
@@ -62,8 +62,8 @@
                             <input name="email" id="email_input" value="${ value.email }" placeholder=""><br>
                         </div><br>
                         <div>
-                            <a href="${ window.location.pathname }"><button class="btn bg-primary">Back</button></a>
-                            <input type="submit" onclick="edit_contact_details()" class="btn btn-primary" id="edit_contact_details" value="Save">
+                            <a href="${ window.location.pathname }"><button class="btn btn-primary">Back</button></a>
+                            <input type="submit" onclick="edit_contact_details()" class="btn btn-warning" id="edit_contact_details" value="Save">
                         </div>
                 `)
             },error: function(errormsg){
@@ -76,6 +76,7 @@
         $('#edit_contact').click(function(){
             $('#show_info').hide();
             $('#edit_info').show();
+            $('#edit_contact').hide()
         })
 
         function edit_contact_details(){
