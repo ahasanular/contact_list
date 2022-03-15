@@ -3,12 +3,15 @@ import secrets
 from django.db import models
 from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
+
+
 # import for QR code
 
 import qrcode
 from io import BytesIO
 from django.core.files import File
 from PIL import Image, ImageDraw
+
 
 # Create your models here.
 class Person(models.Model):
@@ -36,10 +39,15 @@ class Person(models.Model):
         else:
             super(Person, self).save(*args, **kwargs)
 
+        # QR code
+
         qr_code_picture = qrcode.make("Name : "+self.name+"\nPhone : "+self.phone+"\nEmail : "+self.email)
-        canvas = Image.new('RGB', (720, 720), 'white')
+        img_w, img_h = qr_code_picture.size
+        canvas = Image.new('RGBA', (650, 650), (255, 255, 255, 255))
+        bg_w, bg_h = canvas.size
         draw = ImageDraw.Draw(canvas)
-        canvas.paste(qr_code_picture)
+        offset = ((bg_w - img_w) // 2, (bg_h - img_h) // 2)
+        canvas.paste(qr_code_picture, offset)
         qr_code_name = f'qr_code-{self.name}.png'
         buffer = BytesIO()
         canvas.save(buffer, 'PNG')
