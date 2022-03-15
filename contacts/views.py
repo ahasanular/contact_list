@@ -14,6 +14,9 @@ def details(request, slug):
 def addcontact(request):
     return render(request,'add_contact.html')
 
+def qr_code(requset, slug):
+    return render(requset, 'qr_code.html')
+
 
 #All api
 from rest_framework.generics import ListAPIView, CreateAPIView
