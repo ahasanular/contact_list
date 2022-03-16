@@ -89,9 +89,9 @@ WSGI_APPLICATION = 'contact_list.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'contact_manager',
+        'NAME': 'con_man',
         'USER': 'root',
-        'PASSWORD': '',
+        'PASSWORD': 'Hasani*1',
         'HOST': '127.0.0.1',
         'PORT': '3306',
         'OPTIONS': {
