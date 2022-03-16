@@ -45,13 +45,26 @@
     <script>
         $('#sign_out').hide()
         $('#add_new_contact').hide()
-        let cookie_value = document.cookie
-        const parts = cookie_value.split(";")
-        if (parts[1]){
+        $('#trash').hide()
+        $('#my_account').hide()
+        // let cookie_value = document.cookie
+        // const parts = cookie_value.split(";")
+        // // 0-Access 1- csrf 2- slug 3 -name
+        // alert(parts[3])
+        let login_info = document.cookie
+            .split(';')
+            .map(cookie => cookie.split('='))
+            .reduce((accumulator, [key, value]) => ({ ...accumulator, [key.trim()]: decodeURIComponent(value) }), {});
+
+        if (login_info.access){
             $('#sign_up').hide()
             $('#sign_in').hide()
             $('#sign_out').show()
             $('#add_new_contact').show()
+            $('#trash').show()
+            $('#my_account').text(login_info.user_name)
+            $('#my_account').show()
+
         }
 
     </script>
