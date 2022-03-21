@@ -49,25 +49,25 @@
                             <h3 id="email">${ value.email }</h3><br>
                         </div><br>
                         <div>
-                            <a href="/"><button class="btn btn-primary">Back</button></a>
+                            <a href="/"><button class="m-3 btn btn-primary">Back</button></a>
                         </div>
                 `)
                 $('#edit_info').append(`
                         <div>
                             <label for="name" style="font-size:20px">Name : </label><br>
-                            <input name="name" id="name_input" value="${ value.name }" placeholder=""><br>
+                            <input name="name" class="btn-lg" id="name_input" value="${ value.name }" placeholder=""><br>
                         </div>
                         <div>
                             <label for="phone" style="font-size:20px">Phone : </label><br>
-                            <input name="phone" id="phone_input" value="${ value.phone }" placeholder=""><br>
+                            <input name="phone" class="btn-lg" id="phone_input" value="${ value.phone }" placeholder=""><br>
                         </div>
                         <div>
                             <label for="email" style="font-size:20px">Email : </label><br>
-                            <input name="email" id="email_input" value="${ value.email }" placeholder=""><br>
+                            <input name="email" class="btn-lg" id="email_input" value="${ value.email }" placeholder=""><br>
                         </div><br>
                         <div>
-                            <a href="${ window.location.pathname }"><button class="btn btn-primary">Back</button></a>
-                            <input type="submit" onclick="edit_contact_details()" class="btn btn-warning" id="edit_contact_details" value="Save">
+                            <a href="${ window.location.pathname }"><button class="btn btn-primary m-3">Back</button></a>
+                            <input type="submit" onclick="edit_contact_details()" class="btn btn-warning m-3" id="edit_contact_details" value="Save">
                         </div>
                 `)
 

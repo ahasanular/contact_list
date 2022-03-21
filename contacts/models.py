@@ -31,8 +31,8 @@ class Person(models.Model):
             slug = slugify(self.name)
             person_exists = Person.objects.filter(slug=slug).exists()
             if person_exists:
-                hexa = secrets.token_hex(10)
-                self.slug = slug + "-AmRjZe798653-" + hexa
+                hexa = secrets.token_hex(6)
+                self.slug = slug + "-H6K9-" + hexa
             else:
                 self.slug = slug
             super(Person, self).save(*args, **kwargs)
@@ -41,7 +41,7 @@ class Person(models.Model):
 
         # QR code
 
-        qr_code_picture = qrcode.make("Name : "+self.name+"\nPhone : "+self.phone+"\nEmail : "+self.email)
+        qr_code_picture = qrcode.make("Name : "+self.name+"\nEmail : "+self.email+"\nPhone : "+self.phone)
         img_w, img_h = qr_code_picture.size
         canvas = Image.new('RGBA', (650, 650), (255, 255, 255, 255))
         bg_w, bg_h = canvas.size
