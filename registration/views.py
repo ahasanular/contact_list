@@ -61,12 +61,12 @@ class UserSignIn(generics.ListAPIView):
                     return Response(result, status=status.HTTP_401_UNAUTHORIZED)
                 else:
                     app_user = AppUser.objects.filter(user=user).first()
-                    token = RefreshToken.for_user(user)
+                    refresh_token = RefreshToken.for_user(user)
                     data = {
                         'user_name': user.username,
                         'slug': app_user.slug,
-                        'access': str(token.access_token),
-                        'token': str(token),
+                        'access': str(refresh_token.access_token),
+                        'token': str(refresh_token),
                         'status': status.HTTP_200_OK
                     }
                     return Response(data)

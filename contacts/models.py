@@ -55,3 +55,14 @@ class Person(models.Model):
         canvas.close()
         super().save(*args, **kwargs)
 
+
+class DeletedContacts(models.Model):
+    user = models.ForeignKey(User, on_delete=models.PROTECT)
+    is_archived = models.BooleanField(default=False)
+    name = models.CharField(max_length=255)
+    email = models.CharField(max_length=255, null=True, blank=True)
+    phone = models.CharField(max_length=15)
+    slug = models.SlugField(max_length=255, unique=True)
+
+    def __str__(self):
+        return self.name

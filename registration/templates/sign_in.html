@@ -31,6 +31,8 @@
                 success: function (value){
                     if (value.status == 200){
                         document.cookie='access='+value.access+';path=/'
+                        document.cookie='slug='+value.slug+';path=/'
+                        document.cookie='user_name='+value.user_name+';path=/'
 
                         window.location="/"
                     }
