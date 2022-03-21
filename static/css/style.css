@@ -9,10 +9,9 @@ a:hover{
 
 .hoverEffect:hover {
     transition: 0.3s;
-    background-color: rgb(211,211,211);
+    background-color: rgb(235, 235, 235);
     font-weight: bold;
     transform: scale(1.05);
-    border : 1px solid black;
 }
 
 .neuEffect{
