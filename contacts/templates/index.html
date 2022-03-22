@@ -4,39 +4,43 @@
 
 {% block body %}
 
-<h1 class="m-5" id="contract_list_head">Contact List</h1>
+<div id="contract_list_head" class="m-5">
+    <input type="text" id="search_keyword" class="input-sm fa fa-search font-weight-bold" placeholder="Search..." value="" required>
+    <button id="search" class="btn btn-lg neuEffect fa fa-search" placeholder="Search..."></button>
+    <h2 class="font-weight-bold" placeholder="Search...">Your Contacts</h2>
+</div>
 <h1 class="m-5" id="log_info">Sign up or Sign in</h1>
 
 <div class="container" id="main_container">
-    <div class="row">
+    <div class="row" style="align-items: center;">
         <div class="col">
             <div class="row">
-                <div class="col" style="text-align: center;">
+                <div class="col">
                     <span class="h4"><strong>Name</strong></span>
                 </div>
-                <div class="col" style="text-align: center;">
+                <div class="col">
                     <span class="h4"><strong>email</strong></span>
                 </div>
-                <div class="col" style="text-align: center;">
+                <div class="col">
                     <span class="h4"><strong>Phone</strong></span>
                 </div>
             </div>
         </div>
-        <div class="col ms-5" style="max-width: 20%;">
+        <div class="col" style="max-width: 20%;">
             <div class="row">
-            <div class="col" style="text-align: center;">
-                <h3 class="h4"><strong>Favorites</strong></h3>
+            <div class="col">
+                <span class="h4"><strong>Favorites</strong></span>
             </div>
-            <div class="col" style="text-align: center;">
-                <h3 class="h4"><strong>Share</strong></h3>
+            <div class="col">
+                <span class="h4"><strong>Share</strong></span>
             </div>
             </div>
         </div>
     </div>
+</div>
 
-    <div class="container" id="card">
+<div class="container" id="card">
 
-    </div>
 </div>
 
 
@@ -62,37 +66,36 @@
             headers: {Authorization: 'Bearer ' + x.access},
             data: "",
             success: function(data){
-                console.log("Success Checking")
-                console.log(data)
+                // console.log("Success Checking")
+                // console.log(data)
 
                 for(var i = 0; i < data.length; i++){
                     $('#card').append(`
-
-                    <div class="row hoverEffect" style="align-items: center;">
-                        <div class="col" style="vertical-align: middle; align-items: center;">
-                            <a class="row p-2" href="/details/${data[i].slug}/">
-                                <div class="col">
-                                    <span class="h4">${data[i].name}</span>
-                                </div>
-                                <div class="col">
-                                    <span class="h4">${data[i].phone}</span>
-                                </div>
-                                <div class="col">
-                                    <span class="h4">${data[i].email}</span>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="col" style="max-width: 20%;">
-                            <div class="row">
+                        <div class="row hoverEffect rounded-pill" style="align-items: center;">
                             <div class="col">
-                                <a class="m-3 col btn neuEffect btn-lg fa fa-heart" href="/${data[i].slug}/" style="font-size: 18px;"></a>
+                                <a class="row" href="/details/${data[i].slug}/">
+                                    <div class="col">
+                                        <span class="h4">${data[i].name}</span>
+                                    </div>
+                                    <div class="col">
+                                        <span class="h4">${data[i].email}</span>
+                                    </div>
+                                    <div class="col">
+                                        <span class="h4">${data[i].phone}</span>
+                                    </div>
+                                </a>
                             </div>
-                            <div class="col">
-                                <a class="m-3 col btn neuEffect btn-lg fa fa-share" href="shear/${data[i].slug}/" style="font-size: 18px;"></a>
-                            </div>
+                            <div class="col" style="max-width: 20%;">
+                                <div class="row">
+                                    <div class="col">
+                                        <a class="m-2 col btn neuEffect btn-sm fa fa-heart" href="/${data[i].slug}/" style="font-size: 18px;"></a>
+                                    </div>
+                                    <div class="col">
+                                        <a class="m-2 col btn neuEffect btn-sm fa fa-share" href="shear/${data[i].slug}/" style="font-size: 18px;"></a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
                     `)
                 }
             },
@@ -101,6 +104,61 @@
                 console.log(data)
             }
         });
+
+        $('#search').click(function(){
+            input_data = {}
+            input_data['search_keywords'] = $('#search_keyword').val()
+
+            $.ajax({
+                type: "PUT",
+                url: "http://127.0.0.1:8000/search_contacts_api/",
+                headers: {Authorization: 'Bearer ' + x.access},
+                data: JSON.stringify(input_data),
+                success: function(data){
+                    // console.log("Success Checking search")
+                    // console.log(data)
+
+                    if(data.lenght != 0){
+                        $('#card').html('')
+                        for(var i = 0; i < data.length; i++){
+                            $('#card').append(`
+                                <div class="row hoverEffect rounded-pill" style="align-items: center;">
+                                    <div class="col">
+                                        <a class="row" href="/details/${data[i].slug}/">
+                                            <div class="col">
+                                                <span class="h4">${data[i].name}</span>
+                                            </div>
+                                            <div class="col">
+                                                <span class="h4">${data[i].email}</span>
+                                            </div>
+                                            <div class="col">
+                                                <span class="h4">${data[i].phone}</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="col" style="max-width: 20%;">
+                                        <div class="row">
+                                            <div class="col">
+                                                <a class="m-2 col btn neuEffect btn-sm fa fa-heart" href="/${data[i].slug}/" style="font-size: 18px;"></a>
+                                            </div>
+                                            <div class="col">
+                                                <a class="m-2 col btn neuEffect btn-sm fa fa-share" href="shear/${data[i].slug}/" style="font-size: 18px;"></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            `)
+                        }
+                    }
+
+
+                },
+                error: function(data){
+                    console.log("Error Checking")
+                    console.log(data)
+                }
+            });
+        })
 
     </script>
 

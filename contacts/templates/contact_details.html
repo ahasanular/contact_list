@@ -5,8 +5,12 @@
 
     <div class="card container" id="card" style="width:25em">
         <div class="row" style="float: right">
-            <button id="edit_contact" class="btn btn-primary">
+            <button id="edit_contact" class="col m-3 btn btn-primary">
                 Edit
+            </button>
+
+            <button id="delete_contact" onclick="delete_contact()" class="col m-3 btn btn-danger">
+                Delete
             </button>
         </div>
         <div class="row" id="show_info">
@@ -45,27 +49,28 @@
                             <h3 id="email">${ value.email }</h3><br>
                         </div><br>
                         <div>
-                            <a href="/"><button class="btn btn-primary">Back</button></a>
+                            <a href="/"><button class="m-3 btn btn-primary">Back</button></a>
                         </div>
                 `)
                 $('#edit_info').append(`
                         <div>
                             <label for="name" style="font-size:20px">Name : </label><br>
-                            <input name="name" id="name_input" value="${ value.name }" placeholder=""><br>
+                            <input name="name" class="btn-lg" id="name_input" value="${ value.name }" placeholder=""><br>
                         </div>
                         <div>
                             <label for="phone" style="font-size:20px">Phone : </label><br>
-                            <input name="phone" id="phone_input" value="${ value.phone }" placeholder=""><br>
+                            <input name="phone" class="btn-lg" id="phone_input" value="${ value.phone }" placeholder=""><br>
                         </div>
                         <div>
                             <label for="email" style="font-size:20px">Email : </label><br>
-                            <input name="email" id="email_input" value="${ value.email }" placeholder=""><br>
+                            <input name="email" class="btn-lg" id="email_input" value="${ value.email }" placeholder=""><br>
                         </div><br>
                         <div>
-                            <a href="${ window.location.pathname }"><button class="btn btn-primary">Back</button></a>
-                            <input type="submit" onclick="edit_contact_details()" class="btn btn-warning" id="edit_contact_details" value="Save">
+                            <a href="${ window.location.pathname }"><button class="btn btn-primary m-3">Back</button></a>
+                            <input type="submit" onclick="edit_contact_details()" class="btn btn-warning m-3" id="edit_contact_details" value="Save">
                         </div>
                 `)
+
             },error: function(errormsg){
                 console.log(errormsg)
             }
@@ -76,7 +81,9 @@
         $('#edit_contact').click(function(){
             $('#show_info').hide();
             $('#edit_info').show();
+            // point to be noted
             $('#edit_contact').hide()
+            $('#delete_contact').hide();
         })
 
         function edit_contact_details(){
@@ -98,6 +105,28 @@
                 },
                 error: function(data){
                     console.log("error checking")
+                    console.log(data)
+                }
+            });
+        }
+
+        function delete_contact(){
+            delete_data = {}
+
+            $.ajax({
+                type: "PUT",
+                url: "http://127.0.0.1:8000/deletecontact_api/"+path[2]+"/",
+                headers: {Authorization: 'Bearer ' + x.access},
+                //data: JSON.stringify(delete_data),
+                success: function(data){
+                    // alert("success")
+                    // alert(data.message)
+                    if(data.status == 200){
+                        window.location = "/"
+                    }
+                },
+                error: function(data){
+                    console.log("error_delete")
                     console.log(data)
                 }
             });
