@@ -7,6 +7,9 @@ import json
 from rest_framework.status import HTTP_400_BAD_REQUEST, HTTP_200_OK
 from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth.models import User
+from rest_framework.generics import ListAPIView, CreateAPIView
+from rest_framework.response import Response
+from django.db.models import Q
 
 def contactList(request):
     return render(request, 'index.html')
@@ -28,8 +31,7 @@ def trashcontact(request):
 
 
 #All api
-from rest_framework.generics import ListAPIView, CreateAPIView
-from rest_framework.response import Response
+
 
 class contact_list_api(ListAPIView):
     permission_classes = [IsAuthenticated]
@@ -255,4 +257,23 @@ class Trash_restore(ListAPIView):
             feedback['message'] = str(e)
             return Response(feedback)
 
+class Search_contact_api(ListAPIView):
+    permission_classes = [IsAuthenticated]
+    def put(self, request):
+        try:
+            data = json.loads(request.body)
+            if 'search_keywords' not in data or data['search_keywords'] == '':
+                feedback = {}
+                feedback['status'] = HTTP_400_BAD_REQUEST
+                feedback['message'] = "Search Keyword Not Found !"
+                return Response(feedback)
 
+            search_result = Person.objects.filter(user=request.user,is_archived=False).all()
+            search_result = search_result.filter(Q(name__icontains=data['search_keywords']) | Q(phone__icontains=data['search_keywords']) | Q(email__icontains=data['search_keywords'])).all()
+            search_result = PersonSerializer(search_result, many=True).data
+            return Response(search_result)
+        except Exception as ex:
+            result = {}
+            result['status'] = HTTP_400_BAD_REQUEST
+            result['message'] = str(ex)
+            return Response(result)

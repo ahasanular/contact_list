@@ -23,5 +23,6 @@ urlpatterns = [
     path('trash_restore_api/<slug:slug>/',views.Trash_restore.as_view()),
 
     path('deletecontact_api/<slug:slug>/',views.Delete_contact_api.as_view()),
+    path('search_contacts_api/',views.Search_contact_api.as_view()),
 ]
 
