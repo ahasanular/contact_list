@@ -71,24 +71,24 @@
 
                 for(var i = 0; i < data.length; i++){
                     $('#card').append(`
-                        <div class="row hoverEffect rounded-pill" style="align-items: center;">
+                        <div class="row hoverEffect rounded-pill full_contact" style="align-items: center;">
                             <div class="col">
                                 <a class="row" href="/details/${data[i].slug}/">
                                     <div class="col">
-                                        <span class="h4">${data[i].name}</span>
+                                        <span class="">${data[i].name}</span>
                                     </div>
                                     <div class="col">
-                                        <span class="h4">${data[i].email}</span>
+                                        <span class="">${data[i].email}</span>
                                     </div>
                                     <div class="col">
-                                        <span class="h4">${data[i].phone}</span>
+                                        <span class="">${data[i].phone}</span>
                                     </div>
                                 </a>
                             </div>
                             <div class="col" style="max-width: 20%;">
                                 <div class="row">
                                     <div class="col">
-                                        <a class="m-2 col btn neuEffect btn-sm fa fa-heart" href="/${data[i].slug}/" style="font-size: 18px;"></a>
+                                        <button class="m-2 col btn neuEffect btn-sm fa fa-trash" id="${data[i].slug}" style="font-size: 18px;" onclick="delete_contact(this)"></button>
                                     </div>
                                     <div class="col">
                                         <a class="m-2 col btn neuEffect btn-sm fa fa-share" href="shear/${data[i].slug}/" style="font-size: 18px;"></a>
@@ -122,7 +122,7 @@
                         $('#card').html('')
                         for(var i = 0; i < data.length; i++){
                             $('#card').append(`
-                                <div class="row hoverEffect rounded-pill" style="align-items: center;">
+                                <div class="row hoverEffect rounded-pill full_contact" style="align-items: center;">
                                     <div class="col">
                                         <a class="row" href="/details/${data[i].slug}/">
                                             <div class="col">
@@ -139,7 +139,7 @@
                                     <div class="col" style="max-width: 20%;">
                                         <div class="row">
                                             <div class="col">
-                                                <a class="m-2 col btn neuEffect btn-sm fa fa-heart" href="/${data[i].slug}/" style="font-size: 18px;"></a>
+                                                <button class="m-2 col btn neuEffect btn-sm fa fa-trash" id="${data[i].slug}" style="font-size: 18px;" onclick="delete_contact(this)"></button>
                                             </div>
                                             <div class="col">
                                                 <a class="m-2 col btn neuEffect btn-sm fa fa-share" href="shear/${data[i].slug}/" style="font-size: 18px;"></a>
@@ -159,6 +159,28 @@
                 }
             });
         })
+
+        function delete_contact(slug){
+
+            $.ajax({
+                type: "PUT",
+                url: "http://127.0.0.1:8000/deletecontact_api/"+slug.id+"/",
+                headers: {Authorization: 'Bearer ' + x.access},
+                //data: JSON.stringify(delete_data),
+                success: function(data){
+                    // alert("success")
+                    // alert(data.message)
+                    if(data.status == 200){
+                        // window.location = "/"
+                        $(slug).closest(".full_contact").hide('slow', function(){ $$(slug).closest(".full_contact").remove(); });
+                    }
+                },
+                error: function(data){
+                    console.log("error_delete")
+                    console.log(data)
+                }
+            });
+        }
 
     </script>
 
