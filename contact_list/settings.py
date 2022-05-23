@@ -86,24 +86,36 @@ WSGI_APPLICATION = 'contact_list.wsgi.application'
 #     }
 # }
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'contact_manager',
-        'USER': 'root',
-        'PASSWORD': '',
-        'HOST': '127.0.0.1',
-        'PORT': '3306',
-        'OPTIONS': {
-            'sql_mode': 'traditional',
-            'isolation_level': 'repeatable read',
-        },
-        'CHARSET': 'utf8',
-        'COLLATION': 'utf8_general_ci',
-        'COLLATION_CONNECTION': 'utf8_general_ci'
-    }
-}
+# connect mysql database
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'contact_manager',
+#         'USER': 'root',
+#         'PASSWORD': 'Ar@fath21',
+#         'HOST': '127.0.0.1',
+#         'PORT': '3306',
+#         'OPTIONS': {
+#             'sql_mode': 'traditional',
+#             'isolation_level': 'repeatable read',
+#         },
+#         'CHARSET': 'utf8',
+#         'COLLATION': 'utf8_general_ci',
+#         'COLLATION_CONNECTION': 'utf8_general_ci'
+#     }
+# }
 
+# connect mongodb atlas cluster
+DATABASES = {
+        'default': {
+            'ENGINE': 'djongo',
+            'NAME': 'Contact_Manager',
+            'ENFORCE_SCHEMA': False,
+            'CLIENT': {
+                'host': 'mongodb+srv://ahasanul-ar:2444@cluster0.sjrfd.mongodb.net/?retryWrites=true&w=majority'
+            }
+        }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -139,10 +151,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_URL = 'static/'
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static')
-]
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
