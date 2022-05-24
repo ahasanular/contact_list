@@ -13,9 +13,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-%+@6#ry5ewp(^yzh*j$s8475-e2y1*0o%3q1!#a$f-lp+hz#ip'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'contactslistmanager.herokuapp.com']
 
 
 # Application definition
