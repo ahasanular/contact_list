@@ -36,9 +36,11 @@ def trashcontact(request):
 class contact_list_api(ListAPIView):
     permission_classes = [IsAuthenticated]
     def get(self, request):
-        data = Person.objects.filter(user=request.user, is_archived=False).all()
-        data = PersonSerializer(data, many=True).data
-        return Response(data)
+        data = Person.objects.filter(user=request.user, is_archived__in=[False]).all()
+        # print("data")
+        # print(data)
+        serializer = PersonSerializer(data,many=True).data
+        return Response(serializer)
 
 class DetailsApi(ListAPIView):
     permission_classes = [IsAuthenticated]
@@ -84,8 +86,8 @@ class Add_contact_api(CreateAPIView):
             #data= request.data
             data= json.loads(request.body)
             user= request.user
-            print("user")
-            print(user)
+            # print("user")
+            # print(user)
             person = Person()
             if 'name' not  in data or data['name']=='':
                 return Response('Please Enter Your Name',status=400)
@@ -202,7 +204,7 @@ class My_account_edit_api(CreateAPIView):
 class Trash_contact_list_api(ListAPIView):
     permission_classes = [IsAuthenticated]
     def get(self, request):
-        data = Person.objects.filter(user=request.user, is_archived=True).all()
+        data = Person.objects.filter(user=request.user, is_archived__in=[True]).all()
         data = PersonSerializer(data, many=True).data
         return Response(data)
 
@@ -237,7 +239,7 @@ class Trash_restore(ListAPIView):
 
     def put(self, request, slug):
         try:
-            person = Person.objects.filter(user=request.user, slug=slug, is_archived=True).first()
+            person = Person.objects.filter(user=request.user, slug=slug, is_archived__in=[True]).first()
             if not person.is_archived:
                 feedback = {}
                 feedback['status'] = HTTP_200_OK
@@ -268,7 +270,7 @@ class Search_contact_api(ListAPIView):
                 feedback['message'] = "Search Keyword Not Found !"
                 return Response(feedback)
 
-            search_result = Person.objects.filter(user=request.user,is_archived=False).all()
+            search_result = Person.objects.filter(user=request.user, is_archived__in=[False]).all()
             search_result = search_result.filter(Q(name__icontains=data['search_keywords']) | Q(phone__icontains=data['search_keywords']) | Q(email__icontains=data['search_keywords'])).all()
             search_result = PersonSerializer(search_result, many=True).data
             return Response(search_result)
