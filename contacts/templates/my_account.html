@@ -26,7 +26,7 @@
         console.log(path[2])
         $.ajax({
             type : "GET",
-            url : "http://127.0.0.1:8000/my_account_api/",
+            url : "/my_account_api/",
             headers: {Authorization: 'Bearer ' + x.access},
             success: function(value){
                 console.log("value")
@@ -78,7 +78,7 @@
 
             $.ajax({
                 type: "PUT",
-                url: "http://127.0.0.1:8000/edit_my_account_api/",
+                url: "/edit_my_account_api/",
                 headers: {Authorization: 'Bearer ' + x.access},
                 data: JSON.stringify(input_data),
                 success: function(data){

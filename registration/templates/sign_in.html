@@ -18,7 +18,7 @@
     <script>
         $('#signin_submit').click(function (){
             let data_str = {}
-            let url_path = "http://127.0.0.1:8000/registration/api/sign_in/"
+            let url_path = "/registration/api/sign_in/"
             data_str['email'] = $('#email').val()
             data_str['password'] = $('#password').val()
             console.log(data_str)

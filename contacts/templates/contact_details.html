@@ -30,7 +30,7 @@
         console.log(path[2])
         $.ajax({
             type : "GET",
-            url : "http://127.0.0.1:8000/details_api/"+path[2]+"/",
+            url : "/details_api/"+path[2]+"/",
             headers: {Authorization: 'Bearer ' + x.access},
             success: function(value){
             console.log("value")
@@ -94,7 +94,7 @@
 
             $.ajax({
                 type: "PUT",
-                url: "http://127.0.0.1:8000/contact_edit_api/"+path[2]+"/",
+                url: "/contact_edit_api/"+path[2]+"/",
                 data: JSON.stringify(input_data),
                 success: function(data){
                     // alert("success")
@@ -115,7 +115,7 @@
 
             $.ajax({
                 type: "PUT",
-                url: "http://127.0.0.1:8000/deletecontact_api/"+path[2]+"/",
+                url: "/deletecontact_api/"+path[2]+"/",
                 headers: {Authorization: 'Bearer ' + x.access},
                 //data: JSON.stringify(delete_data),
                 success: function(data){

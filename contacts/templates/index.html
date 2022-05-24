@@ -62,7 +62,7 @@
 
         $.ajax({
             type: "GET",
-            url: "http://127.0.0.1:8000/contact_list_api/",
+            url: "/contact_list_api/",
             headers: {Authorization: 'Bearer ' + x.access},
             data: "",
             success: function(data){
@@ -111,7 +111,7 @@
 
             $.ajax({
                 type: "PUT",
-                url: "http://127.0.0.1:8000/search_contacts_api/",
+                url: "/search_contacts_api/",
                 headers: {Authorization: 'Bearer ' + x.access},
                 data: JSON.stringify(input_data),
                 success: function(data){
@@ -164,7 +164,7 @@
 
             $.ajax({
                 type: "PUT",
-                url: "http://127.0.0.1:8000/deletecontact_api/"+slug.id+"/",
+                url: "/deletecontact_api/"+slug.id+"/",
                 headers: {Authorization: 'Bearer ' + x.access},
                 //data: JSON.stringify(delete_data),
                 success: function(data){

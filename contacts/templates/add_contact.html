@@ -29,7 +29,7 @@
         // console.log(data_str)
         $.ajax({
             type:"POST",
-            url: "http://127.0.0.1:8000/addcontact_api/",
+            url: "/addcontact_api/",
             data: JSON.stringify(data_str),
             headers: {Authorization: 'Bearer ' + x.access},
             success: function(value){
