@@ -1,1 +1,1 @@
-web: gunicorn contact_list.wsgi --log-file -
+web: gunicorn contactslistmanager.wsgi --log-file -
