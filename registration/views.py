@@ -1,5 +1,6 @@
 from django.shortcuts import render
-from rest_framework import generics, status
+from rest_framework.generics import CreateAPIView
+from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.utils import json
 from .models import AppUser
@@ -26,7 +27,7 @@ def sign_out(request):
 
 
 # APIs
-class UserSignIn(generics.ListAPIView):
+class UserSignIn(CreateAPIView):
     permission_classes = []
 
     def post(self, request, *args, **kwargs):
@@ -77,7 +78,7 @@ class UserSignIn(generics.ListAPIView):
             return Response(result)
 
 
-class UserSignUp(generics.CreateAPIView):
+class UserSignUp(CreateAPIView):
     permission_classes = []
 
     def post(self, request):
