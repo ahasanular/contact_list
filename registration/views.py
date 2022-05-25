@@ -70,6 +70,7 @@ def send_email(to, subject, body):
         # print("Mail Send")
     except Exception as ex:
         # print(str(ex))
+        pass
     finally:
         if server != None:
             server.quit()
