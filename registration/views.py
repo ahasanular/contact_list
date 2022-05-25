@@ -67,10 +67,9 @@ def send_email(to, subject, body):
             from_addr=sender_email,
             to_addrs=to,
             msg = msg.as_string())
-        # print("Mail Send")
+        print("Mail Send")
     except Exception as ex:
-        # print(str(ex))
-        pass
+        print(str(ex))
     finally:
         if server != None:
             server.quit()
