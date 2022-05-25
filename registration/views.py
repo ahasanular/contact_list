@@ -11,6 +11,10 @@ from django.http import HttpResponseRedirect
 import secrets
 from threading import Thread
 from contact_list.settings import ALLOWED_HOSTS
+# for send mail
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 
 # Create your views here.
 def sign_up(request):
@@ -63,9 +67,9 @@ def send_email(to, subject, body):
             from_addr=sender_email,
             to_addrs=to,
             msg = msg.as_string())
-        print("Mail Send")
+        # print("Mail Send")
     except Exception as ex:
-        print(str(ex))
+        # print(str(ex))
     finally:
         if server != None:
             server.quit()
@@ -119,10 +123,11 @@ class UserSignUp(CreateAPIView):
                 user.save()
                 app_user.save()
 
+                # server_root = "https://" + ALLOWED_HOSTS[1] + "/registration/verification/"
                 server_root = "https://" + ALLOWED_HOSTS[1] + "/registration/verification/"
                 activation_link = server_root + data['email'] + "/" + otp + "/"
 
-                send_email_thread(data['email'], "Verification for " + data['account_type'] + " Sign Up", "To confirm your mail and activate your account please click in this LINK : " + activation_link)
+                send_email_thread(data['email'], "Verification for Sign Up", "To confirm your mail and activate your account please click in this LINK : " + activation_link)
 
                 result['message'] = "Success"
                 result['status'] = status.HTTP_200_OK
@@ -134,6 +139,8 @@ class UserSignUp(CreateAPIView):
                     result['status'] = status.HTTP_208_ALREADY_REPORTED
                     return Response(result)
                 else:
+                    # print("hehe account found")
+                    # print(user.email)
                     result['message'] = "Un Active Account Found !"
                     result['email'] = user.email
                     result['status'] = status.HTTP_401_UNAUTHORIZED
@@ -145,6 +152,66 @@ class UserSignUp(CreateAPIView):
             return Response(result)
 
 
+class OtpCheck(CreateAPIView):
+    permission_classes = []
+
+    def put(self, request):
+        try:
+            data = json.loads(request.body)
+
+            if 'otp' not in data or data['otp'] == '':
+                feedback = {}
+                feedback['status'] = status.HTTP_400_BAD_REQUEST
+                feedback['message'] = "OTP cant be NULL"
+                return Response(feedback)
+            if 'otpEmail' not in data or data['otpEmail'] == '':
+                feedback = {}
+                feedback['status'] = status.HTTP_400_BAD_REQUEST
+                feedback['message'] = "Email Lost : Something went wrong"
+                return Response(feedback)
+
+            user = User.objects.filter(email=data['otpEmail']).first()
+
+            if not user or user == '':
+                feedback = {}
+                feedback['status'] = status.HTTP_400_BAD_REQUEST
+                feedback['message'] = "No account with this Email !"
+                return Response(feedback)
+
+            app_user = AppUser.objects.filter(user=user).first()
+
+            if app_user:
+                if app_user.email == data['otpEmail'] and app_user.otp == data['otp']:
+                    user.is_active = True
+                    app_user.otp = ''
+
+                    user.save()
+                    app_user.save()
+
+                    feedback = {}
+                    feedback['status'] = status.HTTP_200_OK
+                    feedback['message'] = "Account Creation successful"
+                    return Response(feedback)
+
+                else:
+                    feedback = {}
+                    feedback['status'] = status.HTTP_401_UNAUTHORIZED
+                    feedback['message'] = "UnAuthorized entry"
+                    return Response(feedback)
+            else:
+                feedback = {}
+                feedback['status'] = status.HTTP_400_BAD_REQUEST
+                feedback['message'] = "No app user found in this Email !"
+                return Response(feedback)
+
+
+        except Exception as ex:
+            feedback = {}
+            feedback['status'] = status.HTTP_400_BAD_REQUEST
+            feedback['message'] = str(ex)
+            return Response(feedback)
+
+
 class UserSignIn(CreateAPIView):
     permission_classes = []
 
@@ -152,32 +219,29 @@ class UserSignIn(CreateAPIView):
         result = {}
         try:
             data = json.loads(request.body)
-            print(data)
+            # print(data)
             if 'email' not in data or data['email']=='':
-                result['message']="Email can not be null."
-                result['Error']="Email"
-                return Response(result, status=status.HTTP_400_BAD_REQUEST)
+                result['message'] = "Email can not be null."
+                result['status'] = status.HTTP_400_BAD_REQUEST
+                return Response(result)
 
             if 'password' not in data or data['password'] == '':
                 result['message'] = "Password can not be null."
-                result['Error'] = "Password"
-                return Response(result, status=status.HTTP_400_BAD_REQUEST)
+                result['status'] = status.HTTP_400_BAD_REQUEST
+                return Response(result)
 
             user = User.objects.filter(email=data['email']).first()
-            if not user:
-                result = {
-                    'message': 'Please create a account'
-                }
-                return Response(result, status=status.HTTP_400_BAD_REQUEST)
-            elif not user.is_active:
-                result = {
-                    'message': 'Please activate your account'
-                }
-                return Response(result, status=status.HTTP_400_BAD_REQUEST)
+            if not user or not user.is_active:
+                result = {}
+                result['message'] = "Please Create an Account before sign in!"
+                result['status'] = status.HTTP_404_NOT_FOUND
+                return Response(result)
             else:
                 if not check_password(data['password'], user.password):
+                    result = {}
                     result['message'] = "Invalid credentials"
-                    return Response(result, status=status.HTTP_401_UNAUTHORIZED)
+                    result['status'] = status.HTTP_401_UNAUTHORIZED
+                    return Response(result)
                 else:
                     app_user = AppUser.objects.filter(user=user).first()
                     refresh_token = RefreshToken.for_user(user)
@@ -196,5 +260,45 @@ class UserSignIn(CreateAPIView):
             return Response(result)
 
 
+class SendVerificationLink(CreateAPIView):
+    permission_classes = []
 
+    def put(self, request):
+        try:
+            data = json.loads(request.body)
+            if 'email' not in data or data['email'] == '':
+                feedback = {}
+                feedback['message'] = "Email LOST ! Something Went Wrong"
+                feedback['status'] = status.HTTP_400_BAD_REQUEST
+                return Response(feedback)
+
+            user = User.objects.filter(email=data['email']).first()
+            # print("printing user")
+            # print(user)
+            otp = secrets.token_hex(25)
+            server_root = "https://" + ALLOWED_HOSTS[1] + "/registration/verification/"
+
+            if user:
+                app_user = AppUser.objects.filter(email=data['email']).first()
+                app_user.otp = otp
+
+                app_user.save()
+                activation_link = server_root + data['email'] + "/" + otp + "/"
+                send_email_thread(data['email'], "Verification for Sign Up", "To confirm your mail and activate your account please click in this LINK : " + activation_link)
+
+                feedback = {}
+                feedback['message'] = "Activation Mail Send !"
+                feedback['status'] = status.HTTP_200_OK
+                return Response(feedback)
+            else:
+                feedback = {}
+                feedback['message'] = "Invalid request!"
+                feedback['status'] = status.HTTP_400_BAD_REQUEST
+                return Response(feedback)
+
+        except Exception as ex:
+            feedback = {}
+            feedback['message'] = str(ex)
+            feedback['status'] = status.HTTP_400_BAD_REQUEST
+            return Response(feedback)
 

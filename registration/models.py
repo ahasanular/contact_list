@@ -10,6 +10,7 @@ class AppUser(models.Model):
     full_name = models.CharField(max_length=255)
     email = models.EmailField()
     slug = models.SlugField(max_length=255, unique=True, null=True, blank=True)
+    otp = models.CharField(max_length=52, null=True, blank=True)
 
     def __str__(self):
         return self.full_name

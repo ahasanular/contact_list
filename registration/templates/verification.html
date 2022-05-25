@@ -18,18 +18,12 @@
             var urlPath = window.location.pathname.split('/')
 
             input_data = {}
-            input_data['otpEmail'] = urlPath[4]
-            input_data['otp'] = urlPath[5]
-            input_data['account_type'] = urlPath[3]
-
-            api_url = "http://127.0.0.1:8000/sign_up/otp_check_api/"
-
-            console.log("Going To")
-            console.log(api_url)
+            input_data['otpEmail'] = urlPath[3]
+            input_data['otp'] = urlPath[4]
 
             $.ajax({
                 type: "PUT",
-                url: api_url,
+                url: "/registration/otp_check_api/",
                 data: JSON.stringify(input_data),
                 success: function(data){
                     console.log("Checking Api success")
@@ -37,7 +31,7 @@
                     if(data.status == 200){
                         console.log("success")
                         console.log(data)
-                        window.location.href = '/sign_in/'
+                        window.location.href = '/registration/sign_in/'
                     }
                     else{
                         console.log("Final Error")
