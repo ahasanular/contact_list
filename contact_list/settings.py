@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     # local Apps
     'registration',
     'contacts',
+    'import',
 
     # 3rd party
     'rest_framework',

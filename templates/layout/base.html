@@ -88,6 +88,37 @@
             $('#bars').attr('onclick', 'hide_panel()')
         }
 
+        $('#import_contact_form').submit(function(event){
+            event.preventDefault()
+            console.log(event)
+            let input_data = new FormData(document.getElementById('import_contact_form'));
+            let input_file = document.forms["import_contact_form"]["contacts_file"].value;
+            console.log(input_file)
+            console.log("input data showing")
+            console.log(input_data)
+            input_file = input_file.split('.')
+            if(input_file[input_file.length - 1] == "csv" || input_file[input_file.length - 1] == "vcf"){
+                $.ajax({
+                    type: "POST",
+                    headers: {"X-CSRFToken": '{{csrf_token}}'},
+                    enctype: 'multipart/form-data',
+                    processData: false,
+                    async: false,
+                    cache: false,
+                    contentType: false,
+                    url: "/import/contact_import_api/",
+                    data: input_data,
+                    success: function(data){
+                        console.log("success checking")
+                        console.log(data)
+                    },
+                    error: function(data){
+                        console.log("checking Error")
+                        console.log(data)
+                    }
+                });
+            }
+        })
     </script>
 </body>
 </html>

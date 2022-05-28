@@ -2,7 +2,6 @@ from django.shortcuts import render
 from registration.models import AppUser
 from .serializers import PersonSerializer, PersonDetailsSerializer, AppUserSerializers
 from .models import Person, DeletedContacts
-from .serializers import PersonSerializer, PersonDetailsSerializer
 import json
 from rest_framework.status import HTTP_400_BAD_REQUEST, HTTP_200_OK
 from rest_framework.permissions import IsAuthenticated

@@ -8,7 +8,7 @@
     </div>
     <div class="row m-5">
         <span>
-            <a id="import" class="fa fa-upload btn neuEffect btn-lg" href="/import/"><strong class="h5"> Import</strong></a>
+            <button type="button" id="import" class="fa fa-upload btn neuEffect btn-lg" data-toggle="modal" data-target="#exampleModalCenter"><strong class="h5"> Import</strong></button>
         </span>
     </div>
     <div class="row m-5">
@@ -21,5 +21,34 @@
             <a id="trash" class="fa fa-trash btn neuEffect btn-lg" href="/trashcontact/"><strong class="h5"> Trash</strong></a>
         </span>
     </div>
+</div>
 
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="exampleModalLongTitle">Import Contacts</h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+        <form enctype="multipart/form-data" method="POST" id="import_contact_form" action="#">
+            {% csrf_token %}
+      <div class="modal-body text-center">
+            <h5>To import contacts, select a CSV or vCard file.</h5>
+            <label class="btn btn-lg neuEffect" for="contacts_file" style="cursor: pointer;">Select File
+                <input class="ms-5 btn btn-sm btn-primary mx-auto" id="contacts_file" name="contacts_file"
+                       accept="text/vcard, text/vcard" placeholder="Select File" required
+                       style="max-width: 35%; display: none;" type="file" value="">
+            </label>
+      </div>
+      <div class="">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <input class="m-5 btn btn-lg neuEffect" type="submit" value="Import" id="import_contact" style="font-weight: bold;">
+          </form>
+      </div>
+    </div>
+  </div>
 </div>
