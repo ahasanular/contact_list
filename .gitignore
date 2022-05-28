@@ -2,7 +2,6 @@
 /env/
 /.idea/
 /__pycache__/
-/media/
 /contact_list/__pycache__/settings.cpython-38.pyc/
 /contacts/__pycache__/serializers.cpython-38.pyc/
 /contacts/__pycache__/urls.cpython-38.pyc/
@@ -10,7 +9,6 @@
 
 venv/
 env/
-media
 .idea/
 __pycache__/
 contact_list/__pycache__/settings.cpython-38.pyc/
