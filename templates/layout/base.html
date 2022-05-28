@@ -39,17 +39,18 @@
         {% include 'layout/header.html' %}
     </div>
 
-    <div class="container" id="page-container" style="margin:50px;">
-        <div class="col" id="side-panel">
-            <div class="row"><button class="rounded-pill">name</button></div>
-            <div class="row"><button class="rounded-pill">import</button></div>
-            <div class="row"><button class="rounded-pill">export</button></div>
-            <div class="row"><button class="rounded-pill">handle</button></div>
-        </div>
-        <div class="col" id="content-wrap">
-            {% block body %}
-                no content found
-            {% endblock %}
+    <div id="page-container" style="margin:50px;">
+        <div class="row">
+            <div class="col" id="side-panel" style="max-width: 15%; left: 0;">
+                {% include 'layout/side_panel.html' %}
+            </div>
+            <div class="col">
+                <div>
+                    {% block body %}
+                        no content found
+                    {% endblock %}
+                </div>
+            </div>
         </div>
     </div>
 
@@ -76,6 +77,15 @@
             $('#my_account').text(login_info.user_name)
             $('#my_account').show()
 
+        }
+
+        function hide_panel(){
+            $('#side-panel').fadeOut("slow")
+            $('#bars').attr('onclick', 'show_panel()')
+        }
+        function show_panel(){
+            $('#side-panel').fadeIn("slow")
+            $('#bars').attr('onclick', 'hide_panel()')
         }
 
     </script>
