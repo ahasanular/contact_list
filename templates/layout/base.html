@@ -21,10 +21,15 @@
     <!--icon library -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-    <!--personal static CSS file-->
+    <!--local static CSS file-->
     <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
 
     <link rel="icon" href="{% static 'images/logo.png' %}">
+
+    <!--jquery ui and script for search autocomplete from https://jqueryui.com/autocomplete/-->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
 
 </head>
 
@@ -34,8 +39,14 @@
         {% include 'layout/header.html' %}
     </div>
 
-    <div id="page-container" style="margin:50px;">
-        <div id="content-wrap">
+    <div class="container" id="page-container" style="margin:50px;">
+        <div class="col" id="side-panel">
+            <div class="row"><button class="rounded-pill">name</button></div>
+            <div class="row"><button class="rounded-pill">import</button></div>
+            <div class="row"><button class="rounded-pill">export</button></div>
+            <div class="row"><button class="rounded-pill">handle</button></div>
+        </div>
+        <div class="col" id="content-wrap">
             {% block body %}
                 no content found
             {% endblock %}

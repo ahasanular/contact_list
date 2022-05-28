@@ -7,12 +7,11 @@
 <div id="contract_list_head" class="m-5">
     <input type="text" id="search_keyword" class="input-sm fa fa-search font-weight-bold" placeholder="Search..." value="" required>
     <button id="search" class="btn btn-lg neuEffect fa fa-search" placeholder="Search..."></button>
-    <h2 class="font-weight-bold" placeholder="Search...">Your Contacts</h2>
 </div>
 <h1 class="m-5" id="log_info">Sign up or Sign in</h1>
 
 <div class="container" id="main_container">
-    <div class="row" style="align-items: center;">
+    <div class="row text-secondary" style="align-items: center;">
         <div class="col">
             <div class="row">
                 <div class="col">
@@ -29,17 +28,19 @@
         <div class="col" style="max-width: 20%;">
             <div class="row">
             <div class="col">
-                <span class="h4"><strong>Favorites</strong></span>
+                <span class="h4"><strong></strong></span>
             </div>
             <div class="col">
-                <span class="h4"><strong>Share</strong></span>
+                <span class="h4"><strong></strong></span>
             </div>
             </div>
         </div>
     </div>
 </div>
 
-<div class="container" id="card">
+<hr>
+
+<div class="container text-secondary" id="card">
 
 </div>
 
@@ -71,7 +72,7 @@
 
                 for(var i = 0; i < data.length; i++){
                     $('#card').append(`
-                        <div class="row hoverEffect rounded-pill full_contact" style="align-items: center;">
+                        <div class="row hoverEffect rounded-pill full_contact" style="align-items: center;" id="${data[i].slug}" onmouseover="hover_on_display(this)" onmouseout="remove_on_mouseout(this)">
                             <div class="col">
                                 <a class="row" href="/details/${data[i].slug}/">
                                     <div class="col">
@@ -85,7 +86,7 @@
                                     </div>
                                 </a>
                             </div>
-                            <div class="col" style="max-width: 20%;">
+                            <div class="col display_on_hover">
                                 <div class="row">
                                     <div class="col">
                                         <button class="m-2 col btn neuEffect btn-sm fa fa-trash" id="${data[i].slug}" style="font-size: 18px;" onclick="delete_contact(this)"></button>
@@ -122,7 +123,7 @@
                         $('#card').html('')
                         for(var i = 0; i < data.length; i++){
                             $('#card').append(`
-                                <div class="row hoverEffect rounded-pill full_contact" style="align-items: center;">
+                                <div class="row hoverEffect rounded-pill full_contact" style="align-items: center;" onmouseover="hover_on_display(this)" onmouseout="remove_on_mouseout(this)">
                                     <div class="col">
                                         <a class="row" href="/details/${data[i].slug}/">
                                             <div class="col">
@@ -136,7 +137,7 @@
                                             </div>
                                         </a>
                                     </div>
-                                    <div class="col" style="max-width: 20%;">
+                                    <div class="col display_on_hover">
                                         <div class="row">
                                             <div class="col">
                                                 <button class="m-2 col btn neuEffect btn-sm fa fa-trash" id="${data[i].slug}" style="font-size: 18px;" onclick="delete_contact(this)"></button>
@@ -182,6 +183,15 @@
             });
         }
 
+        function hover_on_display(data){
+            item = data.querySelector('.display_on_hover')
+            $(item).attr("style", "visibility: visible;")
+        }
+
+        function remove_on_mouseout(data){
+            item = data.querySelector('.display_on_hover')
+            $(item).attr("style", "")
+        }
     </script>
 
 {% endblock %}

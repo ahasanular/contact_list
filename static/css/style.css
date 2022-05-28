@@ -7,6 +7,14 @@ a:hover{
     color: black;
 }
 
+.hoverEffect{
+    min-height: 5vh;
+    font-size: 18px;
+}
+.display_on_hover{
+    max-width: 20%;
+    visibility: hidden;
+}
 .hoverEffect:hover{
     transition: 0.3s;
     background-color: rgb(235, 235, 235);
