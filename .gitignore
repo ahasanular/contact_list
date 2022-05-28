@@ -11,6 +11,7 @@
 venv/
 env/
 media
+media/
 .idea/
 __pycache__/
 contact_list/__pycache__/settings.cpython-38.pyc/
