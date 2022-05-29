@@ -127,7 +127,7 @@ class UserSignUp(CreateAPIView):
                 server_root = "https://" + ALLOWED_HOSTS[1] + "/registration/verification/"
                 activation_link = server_root + data['email'] + "/" + otp + "/"
 
-                send_email_thread(data['email'], "Verification for Sign Up", "To confirm your mail and activate your account please click in this LINK : " + activation_link)
+                # send_email_thread(data['email'], "Verification for Sign Up", "To confirm your mail and activate your account please click in this LINK : " + activation_link)
 
                 result['message'] = "Success"
                 result['status'] = status.HTTP_200_OK

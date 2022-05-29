@@ -89,18 +89,19 @@
         }
 
         $('#import_contact_form').submit(function(event){
+            alert(login_info.access)
             event.preventDefault()
             console.log(event)
             let input_data = new FormData(document.getElementById('import_contact_form'));
             let input_file = document.forms["import_contact_form"]["contacts_file"].value;
-            console.log(input_file)
-            console.log("input data showing")
-            console.log(input_data)
+            // console.log(input_file)
+            // console.log("input data showing")
+            // console.log(input_data)
             input_file = input_file.split('.')
-            if(input_file[input_file.length - 1] == "csv" || input_file[input_file.length - 1] == "vcf"){
+            if(input_file[input_file.length - 1] == "csv"){
                 $.ajax({
                     type: "POST",
-                    headers: {"X-CSRFToken": '{{csrf_token}}'},
+                    headers: {Authorization: 'Bearer ' + login_info.access},
                     enctype: 'multipart/form-data',
                     processData: false,
                     async: false,
@@ -111,10 +112,24 @@
                     success: function(data){
                         console.log("success checking")
                         console.log(data)
+                        // console.log(data.content)
+                        if(data.status == 200){
+                            $("#import_modal_close_button").click()
+                            window.location="/"
+                        }
+                        else{
+                            $('#modal_feedback').html(`
+                                <h3>${data.message}</h3>
+                            `)
+                        }
                     },
                     error: function(data){
                         console.log("checking Error")
                         console.log(data)
+
+                        $('#modal_feedback').html(`
+                            <h3>${data.message}</h3>
+                        `)
                     }
                 });
             }

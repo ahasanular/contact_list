@@ -13,9 +13,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'django-insecure-%+@6#ry5ewp(^yzh*j$s8475-e2y1*0o%3q1!#a$f-lp+hz#ip'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'contactslistmanager.herokuapp.com']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -45,6 +45,12 @@ SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=30),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=30),
 }
+
+# Once I wasn't able to get user using request.user so I did this from seeing web
+# JWT_AUTH = {
+#     # Authorization:Token xxx
+#     'JWT_AUTH_HEADER_PREFIX': 'Token',
+# }
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

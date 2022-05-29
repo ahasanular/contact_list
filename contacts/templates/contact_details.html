@@ -17,6 +17,7 @@
 
         </div>
         <div class="row" id="edit_info">
+            {% csrf_token %}
 
         </div>
     </div>
@@ -42,7 +43,7 @@
                         </div>
                         <div>
                             <label for="phone" style="font-size:20px">Phone : </label><br>
-                            <h3 id="phone">${ value.phone }</h3><br>
+                            <h3 id="phone">${ value.phone1 }</h3><br>
                         </div>
                         <div>
                             <label for="email" style="font-size:20px">Email : </label><br>
@@ -59,7 +60,7 @@
                         </div>
                         <div>
                             <label for="phone" style="font-size:20px">Phone : </label><br>
-                            <input name="phone" class="btn-lg" id="phone_input" value="${ value.phone }" placeholder=""><br>
+                            <input name="phone" class="btn-lg" id="phone_input" value="${ value.phone1 }" placeholder=""><br>
                         </div>
                         <div>
                             <label for="email" style="font-size:20px">Email : </label><br>
@@ -94,6 +95,7 @@
 
             $.ajax({
                 type: "PUT",
+                headers: {Authorization: 'Bearer ' + x.access},
                 url: "/contact_edit_api/"+path[2]+"/",
                 data: JSON.stringify(input_data),
                 success: function(data){

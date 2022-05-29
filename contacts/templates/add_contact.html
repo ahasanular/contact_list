@@ -35,15 +35,16 @@
             success: function(value){
             // alert('success')
             // alert(value.message)
+             console.log("success checking")
+             console.log(value)
               if(value.status==200){
                 console.log(value)
                 window.location="/"
               }
             },
             error: function(errormsg){
-              console.log(errormsg)
-              alert('error')
-              console.log(errormsg)
+              // console.log("errormsg")
+              // console.log(errormsg)
             }
         });
     })

@@ -5,12 +5,12 @@ from registration.models import AppUser
 class PersonSerializer(serializers.ModelSerializer):
     class Meta:
         model = Person
-        fields = ['name', 'phone', 'email', 'slug', 'qr_code']
+        fields = ['name', 'phone1', 'phone2', 'phone3', 'email', 'slug', 'qr_code']
 
 class PersonDetailsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Person
-        fields = ['name', 'email', 'phone', 'slug', 'qr_code']
+        fields = ['name', 'email', 'phone1', 'phone2', 'phone3', 'slug', 'qr_code']
 
 class AppUserSerializers(serializers.ModelSerializer):
     class Meta:

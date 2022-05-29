@@ -3,7 +3,7 @@ from registration.models import AppUser
 from .serializers import PersonSerializer, PersonDetailsSerializer, AppUserSerializers
 from .models import Person, DeletedContacts
 import json
-from rest_framework.status import HTTP_400_BAD_REQUEST, HTTP_200_OK
+from rest_framework.status import HTTP_400_BAD_REQUEST, HTTP_200_OK, HTTP_406_NOT_ACCEPTABLE
 from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth.models import User
 from rest_framework.generics import ListAPIView, CreateAPIView
@@ -64,7 +64,7 @@ class contact_edit_api(CreateAPIView):
             else:
                 person.email = data['email']
                 person.name = data['name']
-                person.phone = data['phone']
+                person.phone1 = data['phone']
                 person.save()
 
                 feedback = {}
@@ -83,8 +83,8 @@ class Add_contact_api(CreateAPIView):
     def post(self, request, *args, **kwargs):
         try:
             #data= request.data
-            data= json.loads(request.body)
-            user= request.user
+            data = json.loads(request.body)
+            user = request.user
             # print("user")
             # print(user)
             person = Person()
@@ -93,10 +93,10 @@ class Add_contact_api(CreateAPIView):
             if 'phone' not  in data or data['phone']=='':
                 return Response('Please Enter Phone Number',status=400)
 
-            person.user= user
-            person.name=data['name']
-            person.phone=data['phone']
-            person.email=data['email']
+            person.user = user
+            person.name = data['name']
+            person.phone1 = data['phone']
+            person.email = data['email']
             person.save()
             result = {}
             result['status'] = HTTP_200_OK
@@ -131,6 +131,8 @@ class Delete_contact_api(CreateAPIView):
             #data = json.loads(request.body)
             person = Person.objects.filter(slug=slug, user=request.user).first()
 
+            print(person)
+
             if not person:
                 result = {}
                 result['status'] = HTTP_400_BAD_REQUEST
@@ -140,6 +142,7 @@ class Delete_contact_api(CreateAPIView):
                 #data['is_archived'] = True
                 person.is_archived = True
                 person.save()
+                print("Testing")
 
                 result = {}
                 result['status'] = HTTP_200_OK
@@ -147,7 +150,7 @@ class Delete_contact_api(CreateAPIView):
                 return Response(result)
         except Exception as ex:
             result = {}
-            result['status'] = HTTP_400_BAD_REQUEST
+            result['status'] = HTTP_406_NOT_ACCEPTABLE
             result['message'] = str(ex)
             return Response(result)
 
@@ -218,7 +221,9 @@ class Trash_contact_api(ListAPIView):
                 deleted_contacts.user = data_archived.user
                 deleted_contacts.name = data_archived.name
                 deleted_contacts.email = data_archived.email
-                deleted_contacts.phone = data_archived.phone
+                deleted_contacts.phone1 = data_archived.phone1
+                deleted_contacts.phone2 = data_archived.phone2
+                deleted_contacts.phone3 = data_archived.phone3
                 deleted_contacts.slug = data_archived.slug
                 deleted_contacts.is_archived = True
                 deleted_contacts.save()
@@ -270,7 +275,7 @@ class Search_contact_api(ListAPIView):
                 return Response(feedback)
 
             search_result = Person.objects.filter(user=request.user, is_archived__in=[False]).all()
-            search_result = search_result.filter(Q(name__icontains=data['search_keywords']) | Q(phone__icontains=data['search_keywords']) | Q(email__icontains=data['search_keywords'])).all()
+            search_result = search_result.filter(Q(name__icontains=data['search_keywords']) | Q(phone1__icontains=data['search_keywords']) | Q(email__icontains=data['search_keywords'])).all()
             search_result = PersonSerializer(search_result, many=True).data
             return Response(search_result)
         except Exception as ex:

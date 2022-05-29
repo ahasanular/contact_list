@@ -13,7 +13,7 @@
     </div>
     <div class="row m-5">
         <span>
-            <a id="export" class="fa fa-download btn neuEffect btn-lg" href="/Export/"><strong class="h5"> Export</strong></a>
+            <button type="button" id="export" class="fa fa-download btn neuEffect btn-lg" data-toggle="modal" data-target="#exportContactsModal"><strong class="h5"> Export</strong></button>
         </span>
     </div>
     <div class="row m-5">
@@ -24,30 +24,54 @@
 </div>
 
 
-<!-- Modal -->
+<!-- Import Contacts Modal -->
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h3 class="modal-title" id="exampleModalLongTitle">Import Contacts</h3>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" id="import_modal_close_button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
         <form enctype="multipart/form-data" method="POST" id="import_contact_form" action="#">
-            {% csrf_token %}
       <div class="modal-body text-center">
-            <h5>To import contacts, select a CSV or vCard file.</h5>
+            <h5>To import contacts, select a CSV file.</h5>
+            {% csrf_token %}
             <label class="btn btn-lg neuEffect" for="contacts_file" style="cursor: pointer;">Select File
                 <input class="ms-5 btn btn-sm btn-primary mx-auto" id="contacts_file" name="contacts_file"
-                       accept="text/vcard, text/vcard" placeholder="Select File" required
+                       accept="text/csv" placeholder="Select File" required
                        style="max-width: 35%; display: none;" type="file" value="">
             </label>
+            <div id="modal_feedback"></div>
+      </div>
+      <div class="" id="modal_footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <input class="m-5 btn neuEffect" type="submit" value="Import" id="import_contact" style="font-weight: bold;">
+      </div>
+        </form>
+    </div>
+  </div>
+</div>
+
+
+<!-- Export Contacts Modal -->
+<div class="modal fade" id="exportContactsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="exportModalLongTitle">Export Contacts</h3>
+        <button type="button" id="export_modal_close_button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+        <form enctype="multipart/form-data" method="POST" id="export_contact_form" action="#">
+      <div class="modal-body text-center">
+          <h2 class="font-bold">On Going...</h2>
+          <h4 class="font-bold">We are still working on this feature and as soon as its complete we will release it for end user</h4>
       </div>
       <div class="">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <input class="m-5 btn btn-lg neuEffect" type="submit" value="Import" id="import_contact" style="font-weight: bold;">
-          </form>
+        <button type="button" class="m-3 btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
     </div>
   </div>

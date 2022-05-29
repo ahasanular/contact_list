@@ -17,9 +17,14 @@ from PIL import Image, ImageDraw
 class Person(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     is_archived = models.BooleanField(default=False)
+
     name = models.CharField(max_length=255)
     email = models.CharField(max_length=255, null=True, blank=True)
-    phone = models.CharField(max_length=15)
+
+    phone1 = models.CharField(max_length=15)
+    phone2 = models.CharField(max_length=15, null=True, blank=True)
+    phone3 = models.CharField(max_length=15, null=True, blank=True)
+
     slug = models.SlugField(max_length=255, unique=True)
     qr_code = models.ImageField(upload_to='qr_codes', null=True, blank=True)
 
@@ -41,7 +46,7 @@ class Person(models.Model):
 
         # QR code
 
-        qr_code_picture = qrcode.make("Name : "+self.name+"\nEmail : "+self.email+"\nPhone : "+self.phone)
+        qr_code_picture = qrcode.make("Name : "+self.name+"\nEmail : "+self.email+"\nPhone : "+self.phone1)
         img_w, img_h = qr_code_picture.size
         canvas = Image.new('RGBA', (650, 650), (255, 255, 255, 255))
         bg_w, bg_h = canvas.size
@@ -59,9 +64,14 @@ class Person(models.Model):
 class DeletedContacts(models.Model):
     user = models.ForeignKey(User, on_delete=models.PROTECT)
     is_archived = models.BooleanField(default=False)
+
     name = models.CharField(max_length=255)
     email = models.CharField(max_length=255, null=True, blank=True)
-    phone = models.CharField(max_length=15)
+
+    phone1 = models.CharField(max_length=15)
+    phone2 = models.CharField(max_length=15, null=True, blank=True)
+    phone3 = models.CharField(max_length=15, null=True, blank=True)
+
     slug = models.SlugField(max_length=255, unique=True)
 
     def __str__(self):
