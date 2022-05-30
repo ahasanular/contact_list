@@ -34,10 +34,10 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-        <form enctype="multipart/form-data" method="POST" id="import_contact_form" action="#">
+        <form enctype="multipart/form-data" method="POST" id="import_contact_form">
+            {% csrf_token %}
       <div class="modal-body text-center">
             <h5>To import contacts, select a CSV file.</h5>
-            {% csrf_token %}
             <label class="btn btn-lg neuEffect" for="contacts_file" style="cursor: pointer;">Select File
                 <input class="ms-5 btn btn-sm btn-primary mx-auto" id="contacts_file" name="contacts_file"
                        accept="text/csv" placeholder="Select File" required
@@ -65,7 +65,6 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-        <form enctype="multipart/form-data" method="POST" id="export_contact_form" action="#">
       <div class="modal-body text-center">
           <h2 class="font-bold">On Going...</h2>
           <h4 class="font-bold">We are still working on this feature and as soon as its complete we will release it for end user</h4>

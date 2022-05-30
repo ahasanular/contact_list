@@ -8,8 +8,6 @@ from rest_framework.permissions import IsAuthenticated
 from .serializers import ImportContactSerializer
 
 # for proccess csv file
-import csv
-import codecs
 from io import StringIO
 import pandas as pd
 

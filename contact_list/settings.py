@@ -17,7 +17,9 @@ DEBUG = False
 
 ALLOWED_HOSTS = ['127.0.0.1', 'contactslistmanager.herokuapp.com']
 
-
+# CSRF token suddenly stopped working and found solution on  web but didn't worked'
+# ALLOWED_ORIGINS = ['http://*', 'https://*']
+# CSRF_TRUSTED_ORIGINS = ALLOWED_ORIGINS.copy()
 # Application definition
 
 INSTALLED_APPS = [
