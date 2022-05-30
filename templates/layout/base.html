@@ -89,9 +89,9 @@
         }
 
         $('#import_contact_form').submit(function(event){
-            alert(login_info.access)
+            // alert(login_info.access)
             event.preventDefault()
-            console.log(event)
+            // console.log(event)
             let input_data = new FormData(document.getElementById('import_contact_form'));
             let input_file = document.forms["import_contact_form"]["contacts_file"].value;
             // console.log(input_file)
@@ -110,8 +110,8 @@
                     url: "/import/contact_import_api/",
                     data: input_data,
                     success: function(data){
-                        console.log("success checking")
-                        console.log(data)
+                        // console.log("success checking")
+                        // console.log(data)
                         // console.log(data.content)
                         if(data.status == 200){
                             $("#import_modal_close_button").click()
@@ -124,8 +124,8 @@
                         }
                     },
                     error: function(data){
-                        console.log("checking Error")
-                        console.log(data)
+                        //console.log("checking Error")
+                        // console.log(data)
 
                         $('#modal_feedback').html(`
                             <h3>${data.message}</h3>

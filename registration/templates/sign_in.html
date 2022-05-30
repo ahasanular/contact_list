@@ -31,14 +31,14 @@
                 headers: {"X-CSRFToken": '{{ csrf_token }}'},
                 success: function (value){
 
-                     console.log("succcccess checking")
-                     console.log(value)
+                     // console.log("succcccess checking")
+                     // console.log(value)
                     if (value.status == 200){
                         document.cookie='access='+value.access+';path=/'
                         document.cookie='slug='+value.slug+';path=/'
                         document.cookie='user_name='+value.user_name+';path=/'
 
-                        // window.location="/"
+                        window.location="/"
                     }
                     else{
                         $('#feedback').html(`
