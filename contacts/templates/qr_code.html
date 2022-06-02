@@ -9,6 +9,7 @@
 </div>
 
 <div id="QR_code">
+    <div class="m-5 spinner-border text-secondary invisible" role="status" id="qr_code_loader"></div>
 </div>
 
     <script>
@@ -23,14 +24,22 @@
             type : "GET",
             url : "/details_api/"+path[2]+"/",
             headers: {Authorization: 'Bearer ' + x.access},
+            beforeSend: function(){
+                $('#qr_code_loader').removeClass("invisible")
+                $('#qr_code_loader').addClass("p-5")
+            },
             success: function(value){
-            console.log("value")
-            console.log(value)
+            // console.log("value")
+            // console.log(value)
                 $("#QR_code").html(`
                         <div>
                             <img src="${ value.qr_code }">
                         </div>
                 `)
+            },
+            complete: function(){
+                $('#qr_code_loader').addClass("invisible")
+                $('#qr_code_loader').removeClass("p-5")
             },
             error: function(errormsg){
                 console.log(errormsg)

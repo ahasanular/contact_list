@@ -35,7 +35,7 @@
 </div>
 
 <hr>
-
+<div class="spinner-border text-secondary invisible" role="status" id="index_list_loader"></div>
 <div class="container text-secondary" id="card">
 
 </div>
@@ -62,6 +62,10 @@
             url: "/contact_list_api/",
             headers: {Authorization: 'Bearer ' + x.access},
             data: "",
+            beforeSend : function(){
+                $('#index_list_loader').removeClass("invisible");
+                $('#index_list_loader').addClass("p-5");
+            },
             success: function(data){
                  // console.log("Success Checking")
                  // console.log(data)
@@ -96,6 +100,11 @@
                     `)
                 }
             },
+            complete : function(){
+                $('#index_list_loader').addClass("invisible");
+                $('#index_list_loader').removeClass("p-5");
+                $('#index_list_loader').hide();
+            },
             error: function(data){
                 console.log("Error Checking")
                 console.log(data)
@@ -111,6 +120,12 @@
                 url: "/search_contacts_api/",
                 headers: {Authorization: 'Bearer ' + x.access},
                 data: JSON.stringify(input_data),
+                beforeSend : function(){
+                    $('#index_list_loader').show();
+                    $('#index_list_loader').removeClass("invisible");
+                    $('#index_list_loader').addClass("p-5");
+                    $('#card').html('')
+                },
                 success: function(data){
                     // console.log("Success Checking search")
                     // console.log(data)
@@ -147,8 +162,11 @@
                             `)
                         }
                     }
-
-
+                },
+                complete : function(){
+                    $('#index_list_loader').addClass("invisible");
+                    $('#index_list_loader').removeClass("p-5");
+                    $('#index_list_loader').hide();
                 },
                 error: function(data){
                     console.log("Error Checking")
@@ -158,11 +176,14 @@
         })
 
         function delete_contact(slug){
-
             $.ajax({
                 type: "PUT",
                 url: "/deletecontact_api/"+slug.id+"/",
                 headers: {Authorization: 'Bearer ' + x.access},
+                beforeSend : function(){
+                    $(slug).removeClass("fa fa-trash btn btn-sm")
+                    $(slug).addClass("spinner-border text-secondary")
+                },
                 //data: JSON.stringify(delete_data),
                 success: function(data){
                     // alert("success")
@@ -171,6 +192,10 @@
                         // window.location = "/"
                         $(slug).closest(".full_contact").hide('slow', function(){ $$(slug).closest(".full_contact").remove(); });
                     }
+                },
+                complete: function(){
+                    $(slug).addClass("fa fa-trash btn btn-sm")
+                    $(slug).removeClass("spinner-border text-secondary")
                 },
                 error: function(data){
                     console.log("error_delete")

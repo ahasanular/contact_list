@@ -10,7 +10,7 @@
 <div class="container" id="main_container">
     <div class="row">
         <div class="col ms-5">
-            <div class="row">
+            <div class="row mb-3">
                 <div class="col" style="text-align: center;">
                     <span class="h4"><strong>Name</strong></span>
                 </div>
@@ -33,10 +33,10 @@
             </div>
         </div>
     </div>
+
     <div class="container" id="card">
-
+        <div class="spinner-border text-secondary invisible" role="status" id="trash_list_loader"></div>
     </div>
-
 </div>
 
 
@@ -63,6 +63,10 @@
             url: "/trash_list_api/",
             headers: {Authorization: 'Bearer ' + x.access},
             data: "",
+            beforeSend: function(){
+                $('#trash_list_loader').removeClass("invisible")
+                $('#trash_list_loader').addClass("p-5")
+            },
             success: function(data){
                 if(data.length == 0){
                     $('#main_container').html(`
@@ -74,7 +78,7 @@
                 else{
                     for(var i = 0; i < data.length; i++){
                         $('#card').append(`
-                            <div class="row" style="align-items: center;">
+                            <div class="row full_contact" style="align-items: center;">
                                 <div class="col" style="vertical-align: middle; align-items: center;">
                                     <div class="row p-2">
                                         <div class="col">
@@ -91,18 +95,21 @@
                                 <div class="col" style="max-width: 20%;">
                                     <div class="row">
                                         <div class="col">
-                                            <button class="m-3 col btn neuEffect btn-lg fa fa-undo" style="font-size: 18px"  onclick="restore_contact(this)" id="${data[i].slug}"></button>
+                                            <button class="m-3 neuEffect btn btn-lg fa fa-undo" style="font-size: 18px"  onclick="restore_contact(this)" id="${data[i].slug}"></button>
                                         </div>
                                         <div class="col">
-                                            <button class="m-3 col btn neuEffect btn-lg fa fa-trash" style="font-size: 18px"  onclick="trash_contact(this)" id="${data[i].slug}"></button>
+                                            <button class="m-3 neuEffect btn btn-lg fa fa-trash" style="font-size: 18px"  onclick="trash_contact(this)" id="${data[i].slug}"></button>
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
                         `)
                     }
                 }
+            },
+            complete: function(){
+                $('#trash_list_loader').addClass("invisible")
+                $('#trash_list_loader').removeClass("p-5")
             },
             error: function(data){
                 console.log("Error Checking")
@@ -116,12 +123,20 @@
                 type: "PUT",
                 url: "/trash_restore_api/"+slg.id+"/",
                 headers: {Authorization: 'Bearer ' + x.access},
+                beforeSend: function(){
+                    $(slg).removeClass("fa fa-undo btn btn-lg")
+                    $(slg).addClass("spinner-border text-secondary")
+                },
                 success: function(data){
                     // alert("success")
                     // alert(data.message)
                     if(data.status == 200){
-                        window.location = "/trashcontact/"
+                        $(slg).closest(".full_contact").hide('slow', function(){ $$(slg).closest(".full_contact").remove(); });
                     }
+                },
+                complete: function(){
+                    $(slg).removeClass("spinner-border text-secondary")
+                    $(slg).addClass("fa fa-undo btn btn-lg")
                 },
                 error: function(data){
                     console.log("error_delete")
@@ -133,20 +148,28 @@
         function trash_contact(slg){
             // alert(slg.id)
             $.ajax({
-                type: "DELETE",
+                type: "POST",
                 url: "/trash_contact_api/"+slg.id+"/",
                 headers: {Authorization: 'Bearer ' + x.access},
                 //data: JSON.stringify(delete_data),
+                beforeSend: function(){
+                    $(slg).removeClass("fa fa-trash btn btn-lg")
+                    $(slg).addClass("spinner-border text-danger")
+                },
                 success: function(data){
-                    // alert("success")
-                    // alert(data.message)
+                    // console.log("success")
+                    // console.log(data)
                     if(data.status == 200){
-                        window.location = "/trashcontact/"
+                        $(slg).closest(".full_contact").hide('slow', function(){ $$(slg).closest(".full_contact").remove(); });
                     }
                 },
+                complete: function(){
+                    $(slg).removeClass("spinner-border text-danger")
+                    $(slg).addClass("fa fa-trash btn btn-lg")
+                },
                 error: function(data){
-                    console.log("error_delete")
-                    console.log(data)
+                    // console.log("error_delete")
+                    // console.log(data)
                 }
             });
         }

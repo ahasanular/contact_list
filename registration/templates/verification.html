@@ -5,6 +5,9 @@
 {% block body %}
 
 <h1 class="m-5">Account Verification</h1>
+<h3 id="otp-feedback" class="m-5 text-danger">
+    <div class="p-3 spinner-border text-secondary" role="status" id="activate_account_loader"></div>
+</h3>
 
 <div class="justify-content-center mx-auto" style="max-width: 70%" id="card">
     <button id="activate-account" class="btn btn-lg neuEffect">Activate Account</button>
@@ -13,6 +16,7 @@
     <script>
         $('#home').hide()
         $('#student_signUp').addClass('active')
+        $('#activate_account_loader').hide()
 
         $('#activate-account').click(function(){
             var urlPath = window.location.pathname.split('/')
@@ -25,23 +29,30 @@
                 type: "PUT",
                 url: "/registration/otp_check_api/",
                 data: JSON.stringify(input_data),
+                beforeSend: function(){
+					$('#activate_account_loader').show()
+				},
                 success: function(data){
                     console.log("Checking Api success")
                     console.log(data)
                     if(data.status == 200){
-                        console.log("success")
-                        console.log(data)
+                        // console.log("success")
+                        // console.log(data)
                         window.location.href = '/registration/signin/'
                     }
                     else{
-                        console.log("Final Error")
-                        console.log(data)
+                        // console.log("Final Error")
+                        // console.log(data)
                         $('#otp-feedback').html(data.message)
                     }
                 },
+                complete: function(){
+					$('#activate_account_loader').hide()
+				},
                 error: function(data){
                     console.log("checking API error")
                     console.log(data)
+                    $('#otp-feedback').html('Our Server currently facing some issue. please try again later!')
                 }
             })
         })

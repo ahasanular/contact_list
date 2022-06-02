@@ -131,7 +131,7 @@ class Delete_contact_api(CreateAPIView):
             #data = json.loads(request.body)
             person = Person.objects.filter(slug=slug, user=request.user).first()
 
-            print(person)
+            # print(person)
 
             if not person:
                 result = {}
@@ -142,7 +142,7 @@ class Delete_contact_api(CreateAPIView):
                 #data['is_archived'] = True
                 person.is_archived = True
                 person.save()
-                print("Testing")
+                # print("Testing")
 
                 result = {}
                 result['status'] = HTTP_200_OK
@@ -212,11 +212,12 @@ class Trash_contact_list_api(ListAPIView):
 
 class Trash_contact_api(ListAPIView):
     permission_classes = [IsAuthenticated]
-
-    def delete(self, request, slug):
+    def post(self, request, slug):
         try:
             data_archived = Person.objects.filter(user=request.user, slug=slug).first()
+
             if data_archived.is_archived:
+
                 deleted_contacts = DeletedContacts()
                 deleted_contacts.user = data_archived.user
                 deleted_contacts.name = data_archived.name
@@ -228,9 +229,21 @@ class Trash_contact_api(ListAPIView):
                 deleted_contacts.is_archived = True
                 deleted_contacts.save()
                 data_trashed = data_archived.delete()
+
+                if not data_trashed:
+                    feedback = {}
+                    feedback['status'] = HTTP_400_BAD_REQUEST
+                    feedback['message'] = "Something Wrong Happen!"
+                    return Response(feedback)
+                else:
+                    feedback = {}
+                    feedback['status'] = HTTP_200_OK
+                    feedback['message'] = "Trashed"
+                    return Response(feedback)
+            else:
                 feedback = {}
-                feedback['status'] = HTTP_200_OK
-                feedback['message'] = "Trashed"
+                feedback['status'] = HTTP_406_NOT_ACCEPTABLE
+                feedback['message'] = "Person Not Found in your list"
                 return Response(feedback)
         except Exception as e:
             feedback = {}

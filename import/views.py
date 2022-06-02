@@ -15,24 +15,16 @@ def import_from_csv(file, user):
     feedback = {}
     try:
         csvf = StringIO(file.read().decode())
-        print("csv IO decod check")
 
         hello = pd.read_csv(csvf, header=0)
-        print("panda read checked")
         hello = hello.replace(np.nan, '', regex=True)
-        # print("nan replce checked")
 
         person_list = []
         for index, row in hello.iterrows():
-            print("testing index")
             person = Person()
-            print("person create checked")
             person.user = user
-            print("user assign checked")
             person.name = row['Name']
-            print("name assign checked")
             person.phone1 = row['Phone 1 - Value']
-            print("Phone 1 assigned")
 
             if 'E-mail 1 - Value' in row:
                 person.email = row['E-mail 1 - Value']
@@ -43,21 +35,13 @@ def import_from_csv(file, user):
             if 'Phone 3 - Value' in row:
                 person.phone3 = row['Phone 3 - Value']
 
-            print("person[index]")
-            print(person)
-            # person_list.append(person)
             person.save()
-
-        print("Final TEST --------------------->>>>>>>>>>>>>>>>>>>>>>>>")
-        print(person_list)
 
         # serializer = self.serializer_class(data=person_list, many=True)
         # serializer.is_valid()
         # serializer.validated_data
         # serializer.save()
 
-        # print("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< SERIALIZER>DATA >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
-        # print(person_list)
         # Person.objects.bulk_create(person_list, ignore_conflicts=True)
 
         feedback['message'] = "Contacts Imported Successfully"

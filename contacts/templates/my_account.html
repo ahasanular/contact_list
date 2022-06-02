@@ -3,12 +3,13 @@
 {% block body %}
     <h1>My Account</h1>
 
-    <div class="card container" id="card" style="width:25em">
+    <div class="card container" id="card" style="width:25em; text-align: center;">
         <div class="row" style="float: right">
             <button id="edit_contact" class="col btn btn-primary m-3">
                 Edit
             </button>
         </div>
+        <div class="spinner-border text-secondary invisible" role="status" id="my_account_loader"></div>
         <div class="row" id="show_info">
 
         </div>
@@ -28,6 +29,10 @@
             type : "GET",
             url : "/my_account_api/",
             headers: {Authorization: 'Bearer ' + x.access},
+            beforeSend : function(){
+                $('#my_account_loader').removeClass("invisible");
+                $('#my_account_loader').addClass("p-5");
+            },
             success: function(value){
                 console.log("value")
                 console.log(value)
@@ -56,9 +61,15 @@
                         <div>
                             <a href="${ window.location.pathname }"><button class="btn btn-primary m-3">Back</button></a>
                             <input type="submit" onclick="edit_my_account()" class="btn btn-warning m-3" id="edit_contact_details" value="Save">
+                            <div class="spinner-border text-warning invisible" role="status" id="edit_my_info_loader"></div>
                         </div>
                 `)
-            },error: function(errormsg){
+            },
+            complete : function(){
+                $('#my_account_loader').addClass("invisible");
+                $('#my_account_loader').removeClass("p-5");
+            },
+            error: function(errormsg){
                 console.log(errormsg)
             }
         });
@@ -81,12 +92,18 @@
                 url: "/edit_my_account_api/",
                 headers: {Authorization: 'Bearer ' + x.access},
                 data: JSON.stringify(input_data),
+                beforeSend: function(){
+                    $('#edit_my_info_loader').removeClass("invisible")
+                },
                 success: function(data){
                     // alert("success")
                     // alert(data.message)
                     if(data.status == 200){
                         window.location = "http://127.0.0.1:8000/my_account/"
                     }
+                },
+                complete: function(){
+                    $('#edit_my_info_loader').addClass("invisible")
                 },
                 error: function(data){
                     console.log("error checking")

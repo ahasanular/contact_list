@@ -14,9 +14,11 @@
         <input type="password" id="password" name="password" value="" placeholder="password"><br>
 
         <input class="m-3 btn neuEffect btn-lg" type="submit" value="Sign in" id="signin_submit">
+        <div class="spinner-border text-secondary" role="status" id="signin_submit_loader"></div>
     </div>
 
     <script>
+        $('#signin_submit_loader').hide()
         $('#signin_submit').click(function (){
             let data_str = {}
             let url_path = "/registration/api/sign_in/"
@@ -29,6 +31,9 @@
                 contentType: 'application/json',
                 data: JSON.stringify(data_str),
                 headers: {"X-CSRFToken": '{{ csrf_token }}'},
+                beforeSend: function(){
+                    $('#signin_submit_loader').show()
+                },
                 success: function (value){
 
                      // console.log("succcccess checking")
@@ -46,6 +51,9 @@
 						`)
                     }
                 },
+                complete: function(){
+					$('#signin_submit_loader').hide();
+				},
                 error: function (data){
                     $('#feedback').html(`
                         <h1>${data.message}</h1>

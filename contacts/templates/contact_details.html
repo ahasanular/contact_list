@@ -11,8 +11,10 @@
 
             <button id="delete_contact" onclick="delete_contact()" class="col m-3 btn btn-danger">
                 Delete
+                <div class="ms-3 spinner-border text-white  invisible" role="status" id="delete_contact_loader"></div>
             </button>
         </div>
+        <div class="spinner-border text-secondary invisible" role="status" id="contact_details_loader"></div>
         <div class="row" id="show_info">
 
         </div>
@@ -33,6 +35,10 @@
             type : "GET",
             url : "/details_api/"+path[2]+"/",
             headers: {Authorization: 'Bearer ' + x.access},
+            beforeSend: function(){
+                $('#contact_details_loader').removeClass("invisible")
+                $('#contact_details_loader').addClass("p-5")
+            },
             success: function(value){
             console.log("value")
             console.log(value)
@@ -69,10 +75,17 @@
                         <div>
                             <a href="${ window.location.pathname }"><button class="btn btn-primary m-3">Back</button></a>
                             <input type="submit" onclick="edit_contact_details()" class="btn btn-warning m-3" id="edit_contact_details" value="Save">
+                            <div class="spinner-border text-warning invisible" role="status" id="edit_contact_details_loader"></div>
                         </div>
                 `)
 
-            },error: function(errormsg){
+            },
+            complete: function(){
+                $('#contact_details_loader').addClass("invisible")
+                $('#contact_details_loader').removeClass("p-5")
+                $('#contact_details_loader').hide();
+            },
+            error: function(errormsg){
                 console.log(errormsg)
             }
         });
@@ -98,12 +111,18 @@
                 headers: {Authorization: 'Bearer ' + x.access},
                 url: "/contact_edit_api/"+path[2]+"/",
                 data: JSON.stringify(input_data),
+                beforeSend: function(){
+                    $('#edit_contact_details_loader').removeClass("invisible")
+                },
                 success: function(data){
                     // alert("success")
                     // alert(data.message)
                     if(data.status == 200){
                         window.location = "http://127.0.0.1:8000/details/"+path[2]+"/"
                     }
+                },
+                complete: function(){
+                    $('#edit_contact_details_loader').addClass("invisible")
                 },
                 error: function(data){
                     console.log("error checking")
@@ -120,12 +139,18 @@
                 url: "/deletecontact_api/"+path[2]+"/",
                 headers: {Authorization: 'Bearer ' + x.access},
                 //data: JSON.stringify(delete_data),
+                beforeSend: function(){
+                    $('#delete_contact_loader').removeClass("invisible")
+                },
                 success: function(data){
                     // alert("success")
                     // alert(data.message)
                     if(data.status == 200){
                         window.location = "/"
                     }
+                },
+                complete: function(){
+                    $('#delete_contact_loader').addClass("invisible")
                 },
                 error: function(data){
                     console.log("error_delete")

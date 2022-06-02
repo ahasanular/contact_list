@@ -175,7 +175,7 @@ class OtpCheck(CreateAPIView):
             if not user or user == '':
                 feedback = {}
                 feedback['status'] = status.HTTP_400_BAD_REQUEST
-                feedback['message'] = "No account with this Email !"
+                feedback['message'] = "No account with this Email! Try again by re-open the verification link."
                 return Response(feedback)
 
             app_user = AppUser.objects.filter(user=user).first()
