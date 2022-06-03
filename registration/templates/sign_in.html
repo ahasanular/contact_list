@@ -6,19 +6,26 @@
     <hr>
     <div id="feedback" class="m-3"></div>
     <div class="access_input text-center">
-        {% csrf_token %}
-        <label for="email">Email</label><br>
-        <input type="email" id="email" name="email" value="" placeholder="abc@gmail.com"><br>
+        <form action="#" method="post" enctype="multipart/form-data" id="from_sign_in">
+            {% csrf_token %}
+            <label for="email">Email</label><br>
+            <input type="email" id="email" name="email" value="" placeholder="abc@gmail.com"><br>
 
-        <label for="password">Password</label><br>
-        <input type="password" id="password" name="password" value="" placeholder="password"><br>
+            <label for="password">Password</label><br>
+            <input type="password" id="password" name="password" value="" placeholder="password"><br>
 
-        <input class="m-3 btn neuEffect btn-lg" type="submit" value="Sign in" id="signin_submit">
-        <div class="spinner-border text-secondary" role="status" id="signin_submit_loader"></div>
+            <input class="m-3 btn neuEffect btn-lg" type="submit" value="Sign in" id="signin_submit">
+            <div class="spinner-border text-secondary" role="status" id="signin_submit_loader"></div>
+        </form>
     </div>
 
     <script>
         $('#signin_submit_loader').hide()
+
+        $('#from_sign_in').submit(function(event){
+            event.preventDefault()
+        })
+
         $('#signin_submit').click(function (){
             let data_str = {}
             let url_path = "/registration/api/sign_in/"

@@ -111,6 +111,11 @@
             }
         });
 
+        $('#form_search').submit(function(event){
+            event.preventDefault()
+
+        })
+
         $('#search').click(function(){
             input_data = {}
             input_data['search_keywords'] = $('#search_keyword').val()

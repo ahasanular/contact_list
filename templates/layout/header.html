@@ -8,9 +8,12 @@
     </div>
     <div style="text-align: center;" class="col m-3">
         <div id="contract_list_head" class="m-5">
-        <input type="text" id="search_keyword" class="input-sm fa fa-search font-weight-bold" placeholder="Search..." value="" required>
-        <button id="search" class="btn btn-lg neuEffect fa fa-search" placeholder="Search..."></button>
-</div>
+            <form method="post" action="#" enctype="multipart/form-data" id="form_search">
+                {% csrf_token %}
+                <input type="text" id="search_keyword" name="search_keywords" class="input-lg" placeholder="Search..." value="" required>
+                <input type="submit" id="search" class="invisible" value="">
+            </form>
+        </div>
     </div>
     <div style="text-align: right" class="col">
 <!--        sign in / sign up / sign out will added here-->

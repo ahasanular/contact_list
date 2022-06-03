@@ -59,10 +59,8 @@
         $('#add_new_contact').hide()
         $('#trash').hide()
         $('#my_account').hide()
-        // let cookie_value = document.cookie
-        // const parts = cookie_value.split(";")
-        // // 0-Access 1- csrf 2- slug 3 -name
-        // alert(parts[3])
+
+
         let login_info = document.cookie
             .split(';')
             .map(cookie => cookie.split('='))
@@ -88,15 +86,12 @@
             $('#bars').attr('onclick', 'hide_panel()')
         }
 
+        $('#import_contact_loader').hide()
+
         $('#import_contact_form').submit(function(event){
-            // alert(login_info.access)
             event.preventDefault()
-            // console.log(event)
             let input_data = new FormData(document.getElementById('import_contact_form'));
             let input_file = document.forms["import_contact_form"]["contacts_file"].value;
-            // console.log(input_file)
-            // console.log("input data showing")
-            // console.log(input_data)
             input_file = input_file.split('.')
             if(input_file[input_file.length - 1] == "csv"){
                 $.ajax({
@@ -109,10 +104,10 @@
                     contentType: false,
                     url: "/import/contact_import_api/",
                     data: input_data,
+                    beforeSend: function(){
+                        $('#import_contact_loader').show()
+                    },
                     success: function(data){
-                        // console.log("success checking")
-                        // console.log(data)
-                        // console.log(data.content)
                         if(data.status == 200){
                             $("#import_modal_close_button").click()
                             window.location="/"
@@ -123,10 +118,10 @@
                             `)
                         }
                     },
+                    complete: function(){
+                        $('#import_contact_loader').hide()
+                    },
                     error: function(data){
-                        //console.log("checking Error")
-                        // console.log(data)
-
                         $('#modal_feedback').html(`
                             <h3>${data.message}</h3>
                         `)
