@@ -167,6 +167,11 @@
                             `)
                         }
                     }
+                    else{
+                        $('#card').append(`
+                            <h3 class="fw-bold text-secondary">Sorry No Contacts found!</h3>
+                        `)
+                    }
                 },
                 complete : function(){
                     $('#index_list_loader').addClass("invisible");
