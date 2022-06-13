@@ -68,10 +68,30 @@
       <div class="modal-body text-center">
           <h2 class="font-bold">On Going...</h2>
           <h4 class="font-bold">We are still working on this feature and as soon as its complete we will release it for end user</h4>
+          <div id="export_modal_feedback"><div class="p-3 m-3 spinner-border text-secondary" role="status" id="export_contact_loader"></div></div>
       </div>
       <div class="">
         <button type="button" class="m-3 btn btn-secondary" data-dismiss="modal">Close</button>
+        <button id="contact_export_api" class="m-3 btn btn-success" onclick="export_contact()">Export</button>
       </div>
     </div>
   </div>
+    <script>
+
+        function export_contact(){
+            $('#export_contact_loader').show()
+            let login_info = document.cookie
+            .split(';')
+            .map(cookie => cookie.split('='))
+            .reduce((accumulator, [key, value]) => ({ ...accumulator, [key.trim()]: decodeURIComponent(value) }), {});
+
+            let export_link = "/export/contacts_export/" + login_info.slug + "/"
+            window.location = export_link
+
+            $("#export_modal_close_button").click()
+
+            $('#export_contact_loader').hide()
+        }
+
+    </script>
 </div>

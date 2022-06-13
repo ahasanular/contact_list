@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'registration',
     'contacts',
     'import',
+    'export',
 
     # 3rd party
     'rest_framework',
