@@ -59,6 +59,9 @@
         $('#add_new_contact').hide()
         $('#trash').hide()
         $('#my_account').hide()
+        $('#side-panel').hide()
+        $('#search_col').hide()
+        $('#bars').hide()
 
 
         let login_info = document.cookie
@@ -74,6 +77,9 @@
             $('#trash').show()
             $('#my_account').text(login_info.user_name)
             $('#my_account').show()
+            $('#side-panel').show()
+            $('#search_col').show()
+            $('#bars').show()
 
         }
 
@@ -122,9 +128,18 @@
                         $('#import_contact_loader').hide()
                     },
                     error: function(data){
-                        $('#modal_feedback').html(`
-                            <h3>${data.message}</h3>
-                        `)
+                        if(data.status == 401){
+                            $('#modal_feedback').html(`
+                                <h3>You need to sign_in to use that feature</h3>
+                            `)
+                        }
+                        else{
+                            $('#modal_feedback').html(`
+                                <h1>Sorry for inconvenience!</h1>
+                                <h2>Some went wrong!</h2>
+                                <h3>We are working on that!</h3>
+                            `)
+                        }
                     }
                 });
             }

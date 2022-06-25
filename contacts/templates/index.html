@@ -45,17 +45,17 @@
     <script>
     $('#contract_list_head').hide()
     $('#main_container').hide()
-    let cookie_data = document.cookie
-    const part = cookie_data.split(";")
-    if(part[1]){
-        $('#contract_list_head').show()
-        $('#main_container').show()
-        $('#log_info').hide()
-    }
+
     let x = document.cookie
         .split(';')
         .map(cookie => cookie.split('='))
         .reduce((accumulator, [key, value]) => ({ ...accumulator, [key.trim()]: decodeURIComponent(value) }), {});
+
+    if(x.access){
+        $('#contract_list_head').show()
+        $('#main_container').show()
+        $('#log_info').hide()
+    }
 
         $.ajax({
             type: "GET",

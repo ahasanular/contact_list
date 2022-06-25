@@ -44,8 +44,9 @@
 					if(data.status == 200){
 						$('#content').html(`
 							<br>
-							<h3 class="mt-3">Please Check Your Mail for verification</h3>
-							<h4 class="m-5"> NOTE : Please Check SPAM folder of your mail In case if It's got recognise as spam</h3>
+							<h3 class="mt-3">Account Creation successful</h3>
+							<h4 class="m-5"> You can now sign in using your credential</h3>
+							<a class="btn btn-lg neuEffect" href="/registration/signin/">Sign In Page</a>
 						`)
 
 						localStorage.removeItem('localEmail')
@@ -59,22 +60,12 @@
 						`)
 						localStorage.removeItem('localEmail')
 					}
-					else if(data.status == 401){
-						localStorage.setItem('localEmail', data.email)
-						$('#content').html(`
-							<br>
-							<h3 class="mt-3">Heads Up!<br>An Unactivated account Found with this Email</h3>
-							<h4 class="m-5"> You can verify now</h3>
-							<button class="btn btn-lg neuEffect m-3" onclick="send_verification_link()" id="verification_link">Send verification link</button>
-							<div class="spinner-border text-secondary" role="status" id="send_verification_btn_loader"></div>
-						`)
-						$('#send_verification_btn_loader').hide();
-					}
 				},
 				complete: function(){
 					$('#signup_submit_loader').hide();
 				},
 				error: function(errormsg){
+					console.log("Error Checking")
 					console.log(errormsg)
 				}
 			});

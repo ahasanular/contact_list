@@ -6,7 +6,7 @@
         <button id="bars" class="m-3 btn btn-lg fa fa-bars" style="font-size: 20px;" onclick="hide_panel()" onmouseover="this.style.backgroundColor='#c3c7cb';" onmouseout="this.style.backgroundColor='white';" ></button>
         <a id="logo" class="m-3 btn btn-lg" href="/" onmouseover="this.style.backgroundColor='#c3c7cb';" onmouseout="this.style.backgroundColor='white';" ><img src="{% static 'images/logo.png' %}" alt="LOGO" class="rounded-circle" height="50" width="50"><strong> Contact Management</strong></a>
     </div>
-    <div style="text-align: center;" class="col m-3">
+    <div style="text-align: center;" class="col m-3" id="search_col">
         <div id="contract_list_head" class="m-5">
             <form method="post" action="#" enctype="multipart/form-data" id="form_search">
                 {% csrf_token %}

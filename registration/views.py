@@ -110,7 +110,7 @@ class UserSignUp(CreateAPIView):
 
                 user.email = data['email']
                 user.password = make_password(data['password'])
-                user.is_active = False
+                # user.is_active = False
 
                 otp = secrets.token_hex(25)
 
@@ -124,8 +124,8 @@ class UserSignUp(CreateAPIView):
                 app_user.save()
 
                 # server_root = "https://" + ALLOWED_HOSTS[1] + "/registration/verification/"
-                server_root = "https://" + ALLOWED_HOSTS[1] + "/registration/verification/"
-                activation_link = server_root + data['email'] + "/" + otp + "/"
+                # server_root = "https://" + ALLOWED_HOSTS[1] + "/registration/verification/"
+                # activation_link = server_root + data['email'] + "/" + otp + "/"
 
                 # send_email_thread(data['email'], "Verification for Sign Up", "To confirm your mail and activate your account please click in this LINK : " + activation_link)
 
