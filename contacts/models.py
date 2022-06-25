@@ -18,10 +18,10 @@ class Person(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     is_archived = models.BooleanField(default=False)
 
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, null=True, blank=True)
     email = models.CharField(max_length=255, null=True, blank=True)
 
-    phone1 = models.CharField(max_length=15)
+    phone1 = models.CharField(max_length=15, null=True, blank=True)
     phone2 = models.CharField(max_length=15, null=True, blank=True)
     phone3 = models.CharField(max_length=15, null=True, blank=True)
 

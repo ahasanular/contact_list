@@ -1,7 +1,7 @@
 import numpy as np
-from rest_framework.generics import CreateAPIView
+from rest_framework.generics import CreateAPIView,ListCreateAPIView
 from rest_framework.response import Response
-from rest_framework.status import HTTP_400_BAD_REQUEST, HTTP_200_OK, HTTP_204_NO_CONTENT, HTTP_406_NOT_ACCEPTABLE
+from rest_framework.status import HTTP_400_BAD_REQUEST, HTTP_200_OK, HTTP_204_NO_CONTENT, HTTP_201_CREATED
 from contacts.models import Person
 from django.contrib.auth.models import User
 from rest_framework.permissions import IsAuthenticated
@@ -35,14 +35,18 @@ def import_from_csv(file, user):
             if 'Phone 3 - Value' in row:
                 person.phone3 = row['Phone 3 - Value']
 
+            # person.save()
             person_list.append(person)
 
-        # serializer = self.serializer_class(data=person_list, many=True)
-        # serializer.is_valid()
-        # serializer.validated_data
-        # serializer.save()
+        person_list = ImportContactSerializer(data=person_list, many=True)
 
-        Person.objects.bulk_create(person_list, ignore_conflicts=True)
+        print("watching array")
+        print(type(person_list))
+
+        hello = Person.objects.bulk_create(person_list, batch_size=None, ignore_conflicts=False)
+
+        print("HERE")
+        print(hello)
 
         feedback['message'] = "Contacts Imported Successfully"
         feedback['status'] = HTTP_200_OK
@@ -50,16 +54,16 @@ def import_from_csv(file, user):
 
     except Exception as ex:
         feedback['message'] = str(ex)
-        print("ERRORRRRR")
-        print(str(ex))
         feedback['status'] = HTTP_400_BAD_REQUEST
         return feedback
 
 
-class ImportContactApi(CreateAPIView):
+class ImportContactApi(ListCreateAPIView):
     permission_classes = [IsAuthenticated]
-    # serializer_class = ImportContactSerializer
-    def post(self, request, *args, **kwargs):
+    queryset = Person.objects.all()
+    serializer_class = ImportContactSerializer
+
+    def create(self, request, *args, **kwargs):
         feedback = {}
         try:
             data = request.data
@@ -74,11 +78,36 @@ class ImportContactApi(CreateAPIView):
             file_name = file_name.split('.')
 
             if file_name[len(file_name)-1] == 'csv':
-                feedback = import_from_csv(data['contacts_file'], user)
+                # feedback = import_from_csv(data['contacts_file'], user)
+
+                csvf = StringIO(data['contacts_file'].read().decode())
+
+                hello = pd.read_csv(csvf, header=0)
+                hello = hello.replace(np.nan, '', regex=True)
+
+                person_list = []
+                for index, row in hello.iterrows():
+                    person = Person()
+                    person.user = user
+                    person.name = row['Name']
+                    person.phone1 = row['Phone 1 - Value']
+
+                    if 'E-mail 1 - Value' in row:
+                        person.email = row['E-mail 1 - Value']
+                    else:
+                        person.email = ""
+                    if 'Phone 2 - Value' in row:
+                        person.phone2 = row['Phone 2 - Value']
+                    if 'Phone 3 - Value' in row:
+                        person.phone3 = row['Phone 3 - Value']
+
+                    person.save()
+                feedback['message'] = "Successful"
+                feedback['status'] = HTTP_200_OK
                 return Response(feedback)
             else:
-                feedback['message'] = "Contacts Imported Successfully"
-                feedback['status'] = HTTP_200_OK
+                feedback['message'] = "Only csv file supported"
+                feedback['status'] = HTTP_400_BAD_REQUEST
                 return Response(feedback)
 
         except Exception as ex:

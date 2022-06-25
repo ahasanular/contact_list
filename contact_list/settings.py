@@ -13,9 +13,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'django-insecure-%+@6#ry5ewp(^yzh*j$s8475-e2y1*0o%3q1!#a$f-lp+hz#ip'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'contactslistmanager.herokuapp.com']
+ALLOWED_HOSTS = []
 
 # CSRF token suddenly stopped working and found solution on  web but didn't worked'
 # ALLOWED_ORIGINS = ['http://*', 'https://*']

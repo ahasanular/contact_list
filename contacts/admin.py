@@ -4,7 +4,7 @@ from .models import Person, DeletedContacts
 
 class PersonAdmin(admin.ModelAdmin):
     def get_queryset(self, request):
-        queryset = Person.objects.filter(is_archived__in=[False]).all().order_by('id')
+        queryset = Person.objects.filter(is_archived__in=[False]).all().order_by('-id')
         return queryset
 
     fields = ['user', 'name', 'email', 'phone1', 'phone2', 'phone3', 'is_archived', 'slug', 'qr_code']

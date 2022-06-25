@@ -35,9 +35,8 @@ def trashcontact(request):
 class contact_list_api(ListAPIView):
     permission_classes = [IsAuthenticated]
     def get(self, request):
-        data = Person.objects.filter(user=request.user, is_archived__in=[False]).all()
-        # print("data")
-        # print(data)
+        data = Person.objects.filter(user=request.user, is_archived__in=[False]).all().order_by('name')
+
         serializer = PersonSerializer(data,many=True).data
         return Response(serializer)
 
@@ -288,7 +287,7 @@ class Search_contact_api(ListAPIView):
                 return Response(feedback)
 
             search_result = Person.objects.filter(user=request.user, is_archived__in=[False]).all()
-            search_result = search_result.filter(Q(name__icontains=data['search_keywords']) | Q(phone1__icontains=data['search_keywords']) | Q(email__icontains=data['search_keywords'])).all()
+            search_result = search_result.filter(Q(name__icontains=data['search_keywords']) | Q(phone1__icontains=data['search_keywords']) | Q(email__icontains=data['search_keywords'])).all().order_by('name')
             search_result = PersonSerializer(search_result, many=True).data
             return Response(search_result)
         except Exception as ex:

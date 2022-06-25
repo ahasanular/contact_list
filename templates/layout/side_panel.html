@@ -43,12 +43,14 @@
                        accept="text/csv" placeholder="Select File" required
                        style="max-width: 65%;" type="file" value="">
             </label>
+
             <div id="modal_feedback"><div class="p-3 m-3 spinner-border text-secondary" role="status" id="import_contact_loader"></div></div>
       </div>
       <div class="" id="modal_footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         <input class="m-5 btn neuEffect" type="submit" value="Import" id="import_contact" style="font-weight: bold;">
       </div>
+            <script>$('#import_contact_loader').hide()</script>
         </form>
     </div>
   </div>
@@ -93,7 +95,7 @@
         }
 
 
-        $('#import_contact_loader').hide()
+
 
         $('#import_contact_form').submit(function(event){
             event.preventDefault()
@@ -106,7 +108,7 @@
                     headers: {Authorization: 'Bearer ' + login_info.access},
                     enctype: 'multipart/form-data',
                     processData: false,
-                    async: false,
+                    async: true,
                     cache: false,
                     contentType: false,
                     url: "/import/contact_import_api/",
@@ -120,6 +122,9 @@
                             window.location="/"
                         }
                         else{
+                            alert("Failed")
+                            alert(data.status)
+                            alert(data.message)
                             $('#modal_feedback').html(`
                                 <h3>${data.message}</h3>
                             `)
@@ -137,8 +142,8 @@
                         else{
                             $('#modal_feedback').html(`
                                 <h1>Sorry for inconvenience!</h1>
-                                <h2>Some went wrong!</h2>
-                                <h3>We are working on that!</h3>
+                                <h2>Something went wrong!</h2>
+                                <h3>${data.message}</h3>
                             `)
                         }
                     }
