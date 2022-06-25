@@ -35,14 +35,14 @@ def import_from_csv(file, user):
             if 'Phone 3 - Value' in row:
                 person.phone3 = row['Phone 3 - Value']
 
-            person.save()
+            person_list.append(person)
 
         # serializer = self.serializer_class(data=person_list, many=True)
         # serializer.is_valid()
         # serializer.validated_data
         # serializer.save()
 
-        # Person.objects.bulk_create(person_list, ignore_conflicts=True)
+        Person.objects.bulk_create(person_list, ignore_conflicts=True)
 
         feedback['message'] = "Contacts Imported Successfully"
         feedback['status'] = HTTP_200_OK
@@ -50,6 +50,8 @@ def import_from_csv(file, user):
 
     except Exception as ex:
         feedback['message'] = str(ex)
+        print("ERRORRRRR")
+        print(str(ex))
         feedback['status'] = HTTP_400_BAD_REQUEST
         return feedback
 

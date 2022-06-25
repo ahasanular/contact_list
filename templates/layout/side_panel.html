@@ -38,10 +38,10 @@
             {% csrf_token %}
       <div class="modal-body text-center">
             <h5>To import contacts, select a CSV file.</h5>
-            <label class="btn btn-lg neuEffect" for="contacts_file" style="cursor: pointer;">Select File
+            <label class="btn btn-lg" for="contacts_file" style="cursor: pointer;">Select File
                 <input class="ms-5 btn btn-sm btn-primary mx-auto" id="contacts_file" name="contacts_file"
                        accept="text/csv" placeholder="Select File" required
-                       style="max-width: 35%;" type="file" value="">
+                       style="max-width: 65%;" type="file" value="">
             </label>
             <div id="modal_feedback"><div class="p-3 m-3 spinner-border text-secondary" role="status" id="import_contact_loader"></div></div>
       </div>
