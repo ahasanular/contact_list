@@ -1,3 +1,5 @@
+import time
+
 import numpy as np
 from rest_framework.generics import CreateAPIView,ListCreateAPIView
 from rest_framework.response import Response
@@ -6,12 +8,14 @@ from contacts.models import Person
 from django.contrib.auth.models import User
 from rest_framework.permissions import IsAuthenticated
 from .serializers import ImportContactSerializer
-
-# for proccess csv file
-from io import StringIO
+from threading import Thread
+from io import StringIO             # for proccess csv file
 import pandas as pd
+# end of import
 
-def import_from_csv(file, user):
+
+
+def save_contacts(file, user):
     feedback = {}
     try:
         csvf = StringIO(file.read().decode())
@@ -35,18 +39,7 @@ def import_from_csv(file, user):
             if 'Phone 3 - Value' in row:
                 person.phone3 = row['Phone 3 - Value']
 
-            # person.save()
-            person_list.append(person)
-
-        person_list = ImportContactSerializer(data=person_list, many=True)
-
-        print("watching array")
-        print(type(person_list))
-
-        hello = Person.objects.bulk_create(person_list, batch_size=None, ignore_conflicts=False)
-
-        print("HERE")
-        print(hello)
+            person.save()
 
         feedback['message'] = "Contacts Imported Successfully"
         feedback['status'] = HTTP_200_OK
@@ -56,6 +49,10 @@ def import_from_csv(file, user):
         feedback['message'] = str(ex)
         feedback['status'] = HTTP_400_BAD_REQUEST
         return feedback
+
+def save_contacts_thread(file, user):
+    thread = Thread(target=save_contacts, args=(file, user))
+    thread.start()
 
 
 class ImportContactApi(ListCreateAPIView):
@@ -78,30 +75,10 @@ class ImportContactApi(ListCreateAPIView):
             file_name = file_name.split('.')
 
             if file_name[len(file_name)-1] == 'csv':
-                # feedback = import_from_csv(data['contacts_file'], user)
+                save_contacts_thread(data['contacts_file'], user)
 
-                csvf = StringIO(data['contacts_file'].read().decode())
+                time.sleep(2)
 
-                hello = pd.read_csv(csvf, header=0)
-                hello = hello.replace(np.nan, '', regex=True)
-
-                person_list = []
-                for index, row in hello.iterrows():
-                    person = Person()
-                    person.user = user
-                    person.name = row['Name']
-                    person.phone1 = row['Phone 1 - Value']
-
-                    if 'E-mail 1 - Value' in row:
-                        person.email = row['E-mail 1 - Value']
-                    else:
-                        person.email = ""
-                    if 'Phone 2 - Value' in row:
-                        person.phone2 = row['Phone 2 - Value']
-                    if 'Phone 3 - Value' in row:
-                        person.phone3 = row['Phone 3 - Value']
-
-                    person.save()
                 feedback['message'] = "Successful"
                 feedback['status'] = HTTP_200_OK
                 return Response(feedback)
