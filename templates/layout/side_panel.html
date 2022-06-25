@@ -122,9 +122,6 @@
                             window.location="/"
                         }
                         else{
-                            alert("Failed")
-                            alert(data.status)
-                            alert(data.message)
                             $('#modal_feedback').html(`
                                 <h3>${data.message}</h3>
                             `)
@@ -143,7 +140,7 @@
                             $('#modal_feedback').html(`
                                 <h1>Sorry for inconvenience!</h1>
                                 <h2>Something went wrong!</h2>
-                                <h3>${data.message}</h3>
+                                <h3>Working on this</h3>
                             `)
                         }
                     }
