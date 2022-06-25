@@ -66,8 +66,7 @@
         </button>
       </div>
       <div class="modal-body text-center">
-          <h2 class="font-bold">On Going...</h2>
-          <h4 class="font-bold">We are still working on this feature and as soon as its complete we will release it for end user</h4>
+          <h4 class="font-bold">To Export all contact as csv click on export</h4>
           <div id="export_modal_feedback"><div class="p-3 m-3 spinner-border text-secondary" role="status" id="export_contact_loader"></div></div>
       </div>
       <div class="">
@@ -92,6 +91,60 @@
 
             $('#export_contact_loader').hide()
         }
+
+
+        $('#import_contact_loader').hide()
+
+        $('#import_contact_form').submit(function(event){
+            event.preventDefault()
+            let input_data = new FormData(document.getElementById('import_contact_form'));
+            let input_file = document.forms["import_contact_form"]["contacts_file"].value;
+            input_file = input_file.split('.')
+            if(input_file[input_file.length - 1] == "csv"){
+                $.ajax({
+                    type: "POST",
+                    headers: {Authorization: 'Bearer ' + login_info.access},
+                    enctype: 'multipart/form-data',
+                    processData: false,
+                    async: false,
+                    cache: false,
+                    contentType: false,
+                    url: "/import/contact_import_api/",
+                    data: input_data,
+                    beforeSend: function(){
+                        $('#import_contact_loader').show()
+                    },
+                    success: function(data){
+                        if(data.status == 200){
+                            $("#import_modal_close_button").click()
+                            window.location="/"
+                        }
+                        else{
+                            $('#modal_feedback').html(`
+                                <h3>${data.message}</h3>
+                            `)
+                        }
+                    },
+                    complete: function(){
+                        $('#import_contact_loader').hide()
+                    },
+                    error: function(data){
+                        if(data.status == 401){
+                            $('#modal_feedback').html(`
+                                <h3>You need to sign_in to use that feature</h3>
+                            `)
+                        }
+                        else{
+                            $('#modal_feedback').html(`
+                                <h1>Sorry for inconvenience!</h1>
+                                <h2>Some went wrong!</h2>
+                                <h3>We are working on that!</h3>
+                            `)
+                        }
+                    }
+                });
+            }
+        })
 
     </script>
 </div>
