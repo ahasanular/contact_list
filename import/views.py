@@ -35,7 +35,6 @@ def save_contacts_later(data, user):
 def save_contacts_thread(data, user):
     thread = Thread(target=save_contacts_later, args=(data, user))
     thread.start()
-    thread.join()
 
 def save_contacts(file, user):
     feedback = {}
