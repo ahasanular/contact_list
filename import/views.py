@@ -48,7 +48,7 @@ def save_contacts(file, user):
 
         i = 0
         for index, row in hello.iterrows():
-            if i == 15:
+            if i == 30:
                 break
             person = Person()
             person.user = user
@@ -68,7 +68,7 @@ def save_contacts(file, user):
 
             i = i + 1
 
-        df1 = hello.drop(hello.index[:15])
+        df1 = hello.drop(hello.index[:30])
 
         save_contacts_thread(df1, user)
 
@@ -103,8 +103,6 @@ class ImportContactApi(ListCreateAPIView):
 
             if file_name[len(file_name)-1] == 'csv':
                 save_contacts(data['contacts_file'], user)
-
-                time.sleep(2)
 
                 feedback['message'] = "Successful"
                 feedback['status'] = HTTP_200_OK
