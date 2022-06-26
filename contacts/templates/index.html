@@ -43,7 +43,7 @@
 
 </div>
 <div class="spinner-border text-secondary" role="status" id="index_list_loader"></div>
-<div id="height_increase"></div>
+<div id="page_size_increase"></div>
 
 
 
@@ -97,16 +97,16 @@
                         <div class="row hoverEffect rounded-pill full_contact" style="align-items: center;" id="${data[i].slug}" onmouseover="hover_on_display(this)" onmouseout="remove_on_mouseout(this)">
                             <div class="col">
                                 <a class="row" href="/details/${data[i].slug}/">
-                                    <div class="col">
+                                    <div class="col my-auto">
                                         <span class="index">${i + ((parseInt(pageNumber.split('=')[1])-1) * 15) + 1}</span>
                                     </div>
-                                    <div class="col">
+                                    <div class="col my-auto">
                                         <span class="">${data[i].name}</span>
                                     </div>
-                                    <div class="col">
+                                    <div class="col col-4 my-auto text-wrap">
                                         <span class="">${data[i].email}</span>
                                     </div>
-                                    <div class="col">
+                                    <div class="col my-auto">
                                         <span class="">${data[i].phone1}</span>
                                     </div>
                                 </a>
@@ -124,30 +124,32 @@
                         </div>
                     `)
                 }
-                $('#height_increase').height($('#height_increase').height() - 1000)
+                // $('#page_size_increase').height($('#page_size_increase').height() - 1000);
             },
             complete : function(){
                 $('#index_list_loader').removeClass("p-5");
                 $('#index_list_loader').hide();
+                scroll_flag = true;
             },
             error: function(data){
                 console.log("Error Checking")
                 console.log(data)
             }
+
         });
     }
 
     get_index_data("?page=1");
 
+    let scroll_flag = true;
+
     $(window).scroll(function() {
-       if($(window).scrollTop() + $(window).height() == $(document).height()) {
-           if(localStorage.getItem('nextPage') != ""){
-               $('#height_increase').height($('#height_increase').height() + 1000)
-           }
-           get_index_data(localStorage.getItem("nextPage"));
+       if($(window).scrollTop() + $(window).height() == $(document).height() && scroll_flag) {
+           scroll_flag = false;
+           // $('#page_size_increase').height($('#page_size_increase').height() + 1000);
+           get_index_data(localStorage.getItem('nextPage'));
        }
     });
-
 
         $('#form_search').submit(function(event){
             event.preventDefault()
@@ -183,7 +185,7 @@
                                     <div class="col">
                                         <a class="row" href="/details/${data[i].slug}/">
                                             <div class="col">
-                                                <span class="h4 index">${i + 1}</span>
+                                                <span class="index">${i + 1}</span>
                                             </div>
                                             <div class="col">
                                                 <span class="h4">${data[i].name}</span>
