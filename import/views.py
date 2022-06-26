@@ -14,28 +14,28 @@ import pandas as pd
 # end of import
 
 
-def save_contacts_later(row, user):
-    print("NAME")
-    print(row['Name'])
-    person = Person()
-    person.user = user
-    person.name = row['Name']
-    person.phone1 = row['Phone 1 - Value']
+def save_contacts_later(data, user):
+    for index, row in data.iterrows():
+        person = Person()
+        person.user = user
+        person.name = row['Name']
+        person.phone1 = row['Phone 1 - Value']
 
-    if 'E-mail 1 - Value' in row:
-        person.email = row['E-mail 1 - Value']
-    else:
-        person.email = ""
-    if 'Phone 2 - Value' in row:
-        person.phone2 = row['Phone 2 - Value']
-    if 'Phone 3 - Value' in row:
-        person.phone3 = row['Phone 3 - Value']
+        if 'E-mail 1 - Value' in row:
+            person.email = row['E-mail 1 - Value']
+        else:
+            person.email = ""
+        if 'Phone 2 - Value' in row:
+            person.phone2 = row['Phone 2 - Value']
+        if 'Phone 3 - Value' in row:
+            person.phone3 = row['Phone 3 - Value']
 
-    person.save()
+        person.save()
 
 def save_contacts_thread(data, user):
     thread = Thread(target=save_contacts_later, args=(data, user))
     thread.start()
+    thread.join()
 
 def save_contacts(file, user):
     feedback = {}
@@ -49,7 +49,7 @@ def save_contacts(file, user):
 
         i = 0
         for index, row in hello.iterrows():
-            if i == 30:
+            if i == 15:
                 break
             person = Person()
             person.user = user
@@ -69,18 +69,9 @@ def save_contacts(file, user):
 
             i = i + 1
 
-        df1 = hello.drop(hello.index[:30])
+        df1 = hello.drop(hello.index[:15])
 
-        # save_contacts_thread(df1, user)
-
-        threads = []
-        for index, row in df1.iterrows():
-            t = Thread(target=save_contacts_later, args=(row, user))
-            t.start()
-            threads.append(t)
-
-        for thread in threads:
-            thread.join()
+        save_contacts_thread(df1, user)
 
         feedback['message'] = "Contacts Imported Successfully"
         feedback['status'] = HTTP_200_OK
