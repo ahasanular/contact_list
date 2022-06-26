@@ -79,6 +79,8 @@
   </div>
     <script>
 
+
+
         function export_contact(){
             $('#export_contact_loader').show()
             let login_info = document.cookie
@@ -95,58 +97,6 @@
         }
 
 
-
-
-        $('#import_contact_form').submit(function(event){
-            event.preventDefault()
-            let input_data = new FormData(document.getElementById('import_contact_form'));
-            let input_file = document.forms["import_contact_form"]["contacts_file"].value;
-            input_file = input_file.split('.')
-            if(input_file[input_file.length - 1] == "csv"){
-                $.ajax({
-                    type: "POST",
-                    headers: {Authorization: 'Bearer ' + login_info.access},
-                    enctype: 'multipart/form-data',
-                    processData: false,
-                    async: true,
-                    cache: false,
-                    contentType: false,
-                    url: "/import/contact_import_api/",
-                    data: input_data,
-                    beforeSend: function(){
-                        $('#import_contact_loader').show()
-                    },
-                    success: function(data){
-                        if(data.status == 200){
-                            $("#import_modal_close_button").click()
-                            window.location="/"
-                        }
-                        else{
-                            $('#modal_feedback').html(`
-                                <h3>${data.message}</h3>
-                            `)
-                        }
-                    },
-                    complete: function(){
-                        $('#import_contact_loader').hide()
-                    },
-                    error: function(data){
-                        if(data.status == 401){
-                            $('#modal_feedback').html(`
-                                <h3>You need to sign_in to use that feature</h3>
-                            `)
-                        }
-                        else{
-                            $('#modal_feedback').html(`
-                                <h1>Sorry for inconvenience!</h1>
-                                <h2>Something went wrong!</h2>
-                                <h3>Working on this</h3>
-                            `)
-                        }
-                    }
-                });
-            }
-        })
 
     </script>
 </div>

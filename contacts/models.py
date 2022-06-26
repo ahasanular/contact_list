@@ -62,7 +62,7 @@ class Person(models.Model):
 
 
 class DeletedContacts(models.Model):
-    user = models.ForeignKey(User, on_delete=models.PROTECT)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     is_archived = models.BooleanField(default=False)
 
     name = models.CharField(max_length=255)

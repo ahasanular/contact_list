@@ -1,10 +1,14 @@
+import http
+
 from django.shortcuts import render
 from registration.models import AppUser
 from .serializers import PersonSerializer, PersonDetailsSerializer, AppUserSerializers
+from .pagination import CustomPaginationClass
 from .models import Person, DeletedContacts
 import json
 from rest_framework.status import HTTP_400_BAD_REQUEST, HTTP_200_OK, HTTP_406_NOT_ACCEPTABLE
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.pagination import PageNumberPagination
 from django.contrib.auth.models import User
 from rest_framework.generics import ListAPIView, CreateAPIView
 from rest_framework.response import Response
@@ -31,17 +35,29 @@ def trashcontact(request):
 
 #All api
 
+# class contact_list_api(ListAPIView):
+#     permission_classes = [IsAuthenticated]
+#     pagination_class = CustomPaginationClass
+#
+#     def get(self, request):
+#         data = Person.objects.filter(user=request.user, is_archived__in=[False]).all().order_by('name')
+#         serializer = PersonSerializer(data,many=True).data
+#         return Response(serializer)
+
 
 class contact_list_api(ListAPIView):
     permission_classes = [IsAuthenticated]
-    def get(self, request):
-        data = Person.objects.filter(user=request.user, is_archived__in=[False]).all().order_by('name')
+    serializer_class = PersonSerializer
+    pagination_class = PageNumberPagination
 
-        serializer = PersonSerializer(data,many=True).data
-        return Response(serializer)
+    def get_queryset(self):
+        queryset = Person.objects.filter(user=self.request.user, is_archived__in=[False]).all().order_by('name')
+        return queryset
+
 
 class DetailsApi(ListAPIView):
     permission_classes = [IsAuthenticated]
+
     def get(self, request, slug):
         data_val = Person.objects.filter(slug=slug).first()
         data_val = PersonDetailsSerializer(data_val).data
@@ -49,6 +65,7 @@ class DetailsApi(ListAPIView):
 
 class contact_edit_api(CreateAPIView):
     permission_classes = []
+
     def put(self, request, slug):
         try:
             data = json.loads(request.body)
@@ -71,9 +88,7 @@ class contact_edit_api(CreateAPIView):
                 feedback['message'] = "All details updated !"
                 return Response(feedback)
         except Exception as ex:
-            feedback = {}
-            feedback['status'] = HTTP_400_BAD_REQUEST
-            feedback['message'] = str(ex)
+            feedback = {'status': HTTP_400_BAD_REQUEST, 'message': str(ex)}
             return Response(feedback)
 
 

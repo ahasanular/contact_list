@@ -38,16 +38,19 @@
 </div>
 
 <hr>
-<div class="spinner-border text-secondary invisible" role="status" id="index_list_loader"></div>
+
 <div class="container text-secondary" id="card">
 
 </div>
+<div class="spinner-border text-secondary" role="status" id="index_list_loader"></div>
+<div id="height_increase"></div>
 
 
 
     <script>
     $('#contract_list_head').hide()
     $('#main_container').hide()
+    $('#index_list_loader').hide()
 
     let x = document.cookie
         .split(';')
@@ -60,18 +63,34 @@
         $('#log_info').hide()
     }
 
+    function get_index_data(pageNumber){
+        if(pageNumber == ""){
+            return pageNumber
+        }
         $.ajax({
             type: "GET",
-            url: "/contact_list_api/",
+            url: "/contact_list_api/" + pageNumber,
             headers: {Authorization: 'Bearer ' + x.access},
             data: "",
             beforeSend : function(){
-                $('#index_list_loader').removeClass("invisible");
+                $('#index_list_loader').show()
                 $('#index_list_loader').addClass("p-5");
             },
             success: function(data){
                  // console.log("Success Checking")
                  // console.log(data)
+
+                 localStorage.setItem("count", data.counts);
+
+                 if(data.next != null){
+
+                    localStorage.setItem("nextPage", data.next.split('/')[4]);
+                 }
+                 else{
+                    localStorage.setItem("nextPage", "");
+                 }
+
+                data = data.results
 
                 for(var i = 0; i < data.length; i++){
                     $('#card').append(`
@@ -79,7 +98,7 @@
                             <div class="col">
                                 <a class="row" href="/details/${data[i].slug}/">
                                     <div class="col">
-                                        <span class="">${i+1}</span>
+                                        <span class="index">${i + ((parseInt(pageNumber.split('=')[1])-1) * 15) + 1}</span>
                                     </div>
                                     <div class="col">
                                         <span class="">${data[i].name}</span>
@@ -105,9 +124,9 @@
                         </div>
                     `)
                 }
+                $('#height_increase').height($('#height_increase').height() - 1000)
             },
             complete : function(){
-                $('#index_list_loader').addClass("invisible");
                 $('#index_list_loader').removeClass("p-5");
                 $('#index_list_loader').hide();
             },
@@ -116,6 +135,19 @@
                 console.log(data)
             }
         });
+    }
+
+    get_index_data("?page=1");
+
+    $(window).scroll(function() {
+       if($(window).scrollTop() + $(window).height() == $(document).height()) {
+           if(localStorage.getItem('nextPage') != ""){
+               $('#height_increase').height($('#height_increase').height() + 1000)
+           }
+           get_index_data(localStorage.getItem("nextPage"));
+       }
+    });
+
 
         $('#form_search').submit(function(event){
             event.preventDefault()
@@ -141,6 +173,8 @@
                     // console.log("Success Checking search")
                     // console.log(data)
 
+                    localStorage.setItem("nextPage", "")
+
                     if(data.lenght != 0){
                         $('#card').html('')
                         for(var i = 0; i < data.length; i++){
@@ -148,6 +182,9 @@
                                 <div class="row hoverEffect rounded-pill full_contact" style="align-items: center;" onmouseover="hover_on_display(this)" onmouseout="remove_on_mouseout(this)">
                                     <div class="col">
                                         <a class="row" href="/details/${data[i].slug}/">
+                                            <div class="col">
+                                                <span class="h4 index">${i + 1}</span>
+                                            </div>
                                             <div class="col">
                                                 <span class="h4">${data[i].name}</span>
                                             </div>
