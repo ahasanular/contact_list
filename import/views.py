@@ -77,8 +77,6 @@ class ImportContactApi(ListCreateAPIView):
             if file_name[len(file_name)-1] == 'csv':
                 save_contacts_thread(data['contacts_file'], user)
 
-                time.sleep(5)
-
                 feedback['message'] = "Successful"
                 feedback['status'] = HTTP_200_OK
                 return Response(feedback)
