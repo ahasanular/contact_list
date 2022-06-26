@@ -93,15 +93,6 @@
         }
         $('#export_contact_loader').hide()
 
-        const sleep = (milliseconds) => {
-            return new Promise(resolve => setTimeout(resolve, milliseconds))
-        }
-
-        async function get_updated_contacts(){
-            await sleep(2000)
-            alert("HEllo")
-        }
-
         $('#import_contact_form').submit(function(event){
             event.preventDefault()
             let input_data = new FormData(document.getElementById('import_contact_form'));
@@ -124,9 +115,7 @@
                     success: async function(data){
                         if(data.status == 200){
                             $("#import_modal_close_button").click()
-                            get_index_data("page_1");
-                            await sleep(2000)
-                            get_index_data("page_1");
+                            window.location = "/"
                         }
                         else{
                             $('#modal_feedback').html(`

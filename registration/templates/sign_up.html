@@ -21,7 +21,8 @@
 	</div>
 
 	<script>
-	$('#signup_submit_loader').hide();
+		$('#signup_submit_loader').hide();
+
 		$('#form_sign_up').submit(function(event){
 			event.preventDefault()
 			var data_str = new FormData(document.getElementById('form_sign_up'));
@@ -30,7 +31,7 @@
 				headers: {"X-CSRFToken" : '{{csrf_token}}'},
 				enctype:'multipart/form-data',
 				processData:false,
-				async:false,
+				async:true,
 				cache:false,
 				contentType:false,
 				url : "/registration/api/sign_up/",
