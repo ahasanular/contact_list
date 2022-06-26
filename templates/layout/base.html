@@ -112,7 +112,7 @@
                     beforeSend: function(){
                         $('#import_contact_loader').show()
                     },
-                    success: async function(data){
+                    success: function(data){
                         if(data.status == 200){
                             $("#import_modal_close_button").click()
                             window.location = "/"
