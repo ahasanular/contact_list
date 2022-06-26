@@ -24,6 +24,8 @@ def save_contacts(file, user):
         hello = hello.replace(np.nan, '', regex=True)
 
         person_list = []
+        print("DATA FRAME")
+        print(hello)
         for index, row in hello.iterrows():
             person = Person()
             person.user = user
