@@ -15,6 +15,8 @@ import pandas as pd
 
 
 def save_contacts_later(row, user):
+    print("NAME")
+    print(row['Name'])
     person = Person()
     person.user = user
     person.name = row['Name']
