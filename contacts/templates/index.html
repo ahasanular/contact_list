@@ -92,36 +92,43 @@
 
                 data = data.results
 
-                for(var i = 0; i < data.length; i++){
-                    $('#card').append(`
-                        <div class="row hoverEffect rounded-pill full_contact" style="align-items: center;" id="${data[i].slug}" onmouseover="hover_on_display(this)" onmouseout="remove_on_mouseout(this)">
-                            <div class="col">
-                                <a class="row" href="/details/${data[i].slug}/">
-                                    <div class="col my-auto">
-                                        <span class="index">${i + ((parseInt(pageNumber.split('=')[1])-1) * 20) + 1}</span>
-                                    </div>
-                                    <div class="col my-auto">
-                                        <span class="">${data[i].name}</span>
-                                    </div>
-                                    <div class="col col-4 my-auto text-wrap text-break">
-                                        <span class="">${data[i].email}</span>
-                                    </div>
-                                    <div class="col my-auto">
-                                        <span class="">${data[i].phone1}</span>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="col display_on_hover">
-                                <div class="row">
-                                    <div class="col">
-                                        <button class="m-2 col btn neuEffect btn-sm fa fa-trash" id="${data[i].slug}" style="font-size: 18px;" onclick="delete_contact(this)"></button>
-                                    </div>
-                                    <div class="col">
-                                        <a class="m-2 col btn neuEffect btn-sm fa fa-share" href="/shear/${data[i].slug}/" style="font-size: 18px;"></a>
+                if(data.length){
+                    for(var i = 0; i < data.length; i++){
+                        $('#card').append(`
+                            <div class="row hoverEffect rounded-pill full_contact" style="align-items: center;" id="${data[i].slug}" onmouseover="hover_on_display(this)" onmouseout="remove_on_mouseout(this)">
+                                <div class="col">
+                                    <a class="row" href="/details/${data[i].slug}/">
+                                        <div class="col my-auto">
+                                            <span class="index">${i + ((parseInt(pageNumber.split('=')[1])-1) * 20) + 1}</span>
+                                        </div>
+                                        <div class="col my-auto">
+                                            <span class="">${data[i].name}</span>
+                                        </div>
+                                        <div class="col col-4 my-auto text-wrap text-break">
+                                            <span class="">${data[i].email}</span>
+                                        </div>
+                                        <div class="col my-auto">
+                                            <span class="">${data[i].phone1}</span>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col display_on_hover">
+                                    <div class="row">
+                                        <div class="col">
+                                            <button class="m-2 col btn neuEffect btn-sm fa fa-trash" id="${data[i].slug}" style="font-size: 18px;" onclick="delete_contact(this)"></button>
+                                        </div>
+                                        <div class="col">
+                                            <a class="m-2 col btn neuEffect btn-sm fa fa-share" href="/shear/${data[i].slug}/" style="font-size: 18px;"></a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        `)
+                    }
+                }
+                else{
+                    $('#card').append(`
+                        <h3 class="fw-bold text-secondary">There is no contacts left!</h3>
                     `)
                 }
                 // $('#page_size_increase').height($('#page_size_increase').height() - 1000);
@@ -172,12 +179,17 @@
                     $('#card').html('')
                 },
                 success: function(data){
-                    // console.log("Success Checking search")
-                    // console.log(data)
+                    console.log("Success Checking search")
+                    console.log(data)
 
                     localStorage.setItem("nextPage", "")
 
-                    if(data.lenght != 0){
+                    if(data.length === 0){
+                        $('#card').append(`
+                            <h3 class="fw-bold text-secondary">Sorry No search result found!</h3>
+                        `)
+                    }
+                    else{
                         $('#card').html('')
                         for(var i = 0; i < data.length; i++){
                             $('#card').append(`
@@ -211,11 +223,6 @@
                                 </div>
                             `)
                         }
-                    }
-                    else{
-                        $('#card').append(`
-                            <h3 class="fw-bold text-secondary">Sorry No Contacts found!</h3>
-                        `)
                     }
                 },
                 complete : function(){
