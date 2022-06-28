@@ -11,8 +11,11 @@
 
             <button id="delete_contact" onclick="delete_contact()" class="col m-3 btn btn-danger">
                 Delete
-                <div class="ms-3 spinner-border text-white  invisible" role="status" id="delete_contact_loader"></div>
+                <div class="ms-3 spinner-border text-white" role="status" id="delete_contact_loader"></div>
             </button>
+
+            <a id="share_contact" class="col m-3 btn btn-success" style="font-size: 18px;">Share</a>
+
         </div>
         <div class="spinner-border text-secondary invisible" role="status" id="contact_details_loader"></div>
         <div class="row" id="show_info">
@@ -24,6 +27,8 @@
         </div>
     </div>
     <script>
+    $('#delete_contact_loader').hide()
+
     let x = document.cookie
         .split(';')
         .map(cookie => cookie.split('='))
@@ -43,22 +48,23 @@
             console.log("value")
             console.log(value)
                 $("#show_info").append(`
-                        <div>
-                            <label for="name" style="font-size:20px">Name : </label><br>
-                            <h3 id="name">${ value.name }</h3><br>
-                        </div>
-                        <div>
-                            <label for="phone" style="font-size:20px">Phone : </label><br>
-                            <h3 id="phone">${ value.phone1 }</h3><br>
-                        </div>
-                        <div>
-                            <label for="email" style="font-size:20px">Email : </label><br>
-                            <h3 id="email">${ value.email }</h3><br>
-                        </div><br>
-                        <div>
-                            <a href="/"><button class="m-3 btn btn-primary">Back</button></a>
-                        </div>
+                    <div>
+                        <label for="name" style="font-size:20px">Name : </label><br>
+                        <h3 id="name">${ value.name }</h3><br>
+                    </div>
+                    <div>
+                        <label for="phone" style="font-size:20px">Phone : </label><br>
+                        <h3 id="phone">${ value.phone1 }</h3><br>
+                    </div>
+                    <div>
+                        <label for="email" style="font-size:20px">Email : </label><br>
+                        <h3 id="email">${ value.email }</h3><br>
+                    </div><br>
+                    <div>
+                        <a href="/"><button class="m-3 btn btn-primary">Back</button></a>
+                    </div>
                 `)
+                $('#share_contact').attr("href", "/shear/" + value.slug + "/")
                 $('#edit_info').append(`
                         <div>
                             <label for="name" style="font-size:20px">Name : </label><br>
@@ -98,6 +104,7 @@
             // point to be noted
             $('#edit_contact').hide()
             $('#delete_contact').hide();
+            $('#share_contact').hide();
         })
 
         function edit_contact_details(){
@@ -140,7 +147,7 @@
                 headers: {Authorization: 'Bearer ' + x.access},
                 //data: JSON.stringify(delete_data),
                 beforeSend: function(){
-                    $('#delete_contact_loader').removeClass("invisible")
+                    $('#delete_contact_loader').show()
                 },
                 success: function(data){
                     // alert("success")
@@ -150,7 +157,7 @@
                     }
                 },
                 complete: function(){
-                    $('#delete_contact_loader').addClass("invisible")
+                    $('#delete_contact_loader').hide()
                 },
                 error: function(data){
                     console.log("error_delete")

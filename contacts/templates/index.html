@@ -98,12 +98,12 @@
                             <div class="col">
                                 <a class="row" href="/details/${data[i].slug}/">
                                     <div class="col my-auto">
-                                        <span class="index">${i + ((parseInt(pageNumber.split('=')[1])-1) * 15) + 1}</span>
+                                        <span class="index">${i + ((parseInt(pageNumber.split('=')[1])-1) * 20) + 1}</span>
                                     </div>
                                     <div class="col my-auto">
                                         <span class="">${data[i].name}</span>
                                     </div>
-                                    <div class="col col-4 my-auto text-wrap">
+                                    <div class="col col-4 my-auto text-wrap text-break">
                                         <span class="">${data[i].email}</span>
                                     </div>
                                     <div class="col my-auto">
@@ -117,7 +117,7 @@
                                         <button class="m-2 col btn neuEffect btn-sm fa fa-trash" id="${data[i].slug}" style="font-size: 18px;" onclick="delete_contact(this)"></button>
                                     </div>
                                     <div class="col">
-                                        <a class="m-2 col btn neuEffect btn-sm fa fa-share" href="shear/${data[i].slug}/" style="font-size: 18px;"></a>
+                                        <a class="m-2 col btn neuEffect btn-sm fa fa-share" href="/shear/${data[i].slug}/" style="font-size: 18px;"></a>
                                     </div>
                                 </div>
                             </div>
@@ -144,7 +144,7 @@
     let scroll_flag = true;
 
     $(window).scroll(function() {
-       if($(window).scrollTop() + $(window).height() == $(document).height() && scroll_flag) {
+       if($(window).scrollTop() + window.innerHeight == $(document).height() && scroll_flag) {
            scroll_flag = false;
            // $('#page_size_increase').height($('#page_size_increase').height() + 1000);
            get_index_data(localStorage.getItem('nextPage'));
@@ -184,17 +184,17 @@
                                 <div class="row hoverEffect rounded-pill full_contact" style="align-items: center;" onmouseover="hover_on_display(this)" onmouseout="remove_on_mouseout(this)">
                                     <div class="col">
                                         <a class="row" href="/details/${data[i].slug}/">
-                                            <div class="col">
+                                            <div class="col my-auto">
                                                 <span class="index">${i + 1}</span>
                                             </div>
-                                            <div class="col">
-                                                <span class="h4">${data[i].name}</span>
+                                            <div class="col my-auto">
+                                                <span class="">${data[i].name}</span>
                                             </div>
-                                            <div class="col">
-                                                <span class="h4">${data[i].email}</span>
+                                            <div class="col col-4 my-auto text-wrap text-break">
+                                                <span class="">${data[i].email}</span>
                                             </div>
-                                            <div class="col">
-                                                <span class="h4">${data[i].phone1}</span>
+                                            <div class="col my-auto">
+                                                <span class="">${data[i].phone1}</span>
                                             </div>
                                         </a>
                                     </div>

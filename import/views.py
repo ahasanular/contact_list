@@ -48,7 +48,7 @@ def save_contacts(file, user):
 
         i = 0
         for index, row in hello.iterrows():
-            if i == 15:
+            if i == 20:
                 break
             person = Person()
             person.user = user
@@ -68,7 +68,7 @@ def save_contacts(file, user):
 
             i = i + 1
 
-        df1 = hello.drop(hello.index[:15])
+        df1 = hello.drop(hello.index[:20])
 
         save_contacts_thread(df1, user)
 
