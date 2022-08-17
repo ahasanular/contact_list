@@ -4,12 +4,16 @@
 
 {% block body %}
 
-<div style="align-items: center;" id="qrcode">
+<div style="align-items: center;" id="qrcodepage">
 <h1 class="m-5" id="contract_list_head">Contact QR code</h1>
 </div>
 
 <div id="QR_code">
     <div class="m-5 spinner-border text-secondary invisible" role="status" id="qr_code_loader"></div>
+    <div class="m-5">
+        <div id="qrcode" style="width:400px; height:400px; margin-top:15px; text-align: center;"></div>
+    </div>
+
 </div>
 
     <script>
@@ -18,8 +22,16 @@
         .map(cookie => cookie.split('='))
         .reduce((accumulator, [key, value]) => ({ ...accumulator, [key.trim()]: decodeURIComponent(value) }), {});
 
+    function makeCode (obj) {
+        qrcode.makeCode(obj);
+    }
+    var qrcode = new QRCode(document.getElementById("qrcode"), {
+        width : 300,
+        height : 300
+        });
+
         var path = window.location.pathname.split('/')
-        console.log(path[2])
+        // console.log(path[2])
         $.ajax({
             type : "GET",
             url : "/details_api/"+path[2]+"/",
@@ -31,11 +43,10 @@
             success: function(value){
             // console.log("value")
             // console.log(value)
-                $("#QR_code").html(`
-                        <div>
-                            <img src="${ value.qr_code }">
-                        </div>
-                `)
+
+                info = "Name : " + value.name + " Phone : " + value.phone1 + " Email : " + value.email
+                makeCode(info);
+
             },
             complete: function(){
                 $('#qr_code_loader').addClass("invisible")

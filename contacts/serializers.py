@@ -10,7 +10,7 @@ class PersonSerializer(serializers.ModelSerializer):
 class PersonDetailsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Person
-        fields = ['name', 'email', 'phone1', 'phone2', 'phone3', 'slug', 'qr_code']
+        fields = ['name', 'email', 'phone1', 'phone2', 'phone3']
 
 class AppUserSerializers(serializers.ModelSerializer):
     class Meta:
