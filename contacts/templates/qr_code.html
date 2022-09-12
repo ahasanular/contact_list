@@ -4,16 +4,19 @@
 
 {% block body %}
 
-<div style="align-items: center;" id="qrcodepage">
-<h1 class="m-5" id="contract_list_head">Contact QR code</h1>
+<div style="align-items: center;">
+<h1 class="m-5">Contact QR code</h1>
+<div class="m-5 spinner-border text-secondary invisible" role="status" id="qr_code_loader"></div>
+<div class="m-5" style=" display: grid;
+justify-content: center;
+align-content: center;">
+    <div id="qrcode" ></div>
 </div>
 
-<div id="QR_code">
-    <div class="m-5 spinner-border text-secondary invisible" role="status" id="qr_code_loader"></div>
-    <div class="m-5">
-        <div id="qrcode" style="width:400px; height:400px; margin-top:15px; text-align: center;"></div>
-    </div>
+</div>
 
+<div>
+    
 </div>
 
     <script>
@@ -44,7 +47,8 @@
             // console.log("value")
             // console.log(value)
 
-                info = "Name : " + value.name + " Phone : " + value.phone1 + " Email : " + value.email
+                // info = "Name : " + value.name + "\n" +" Phone : " + value.phone1 + " : "  + " Email : " + value.email
+                info = `Name : ${value.name}\nPhone : ${value.phone1}\nEmail : ${value.email}`
                 makeCode(info);
 
             },
